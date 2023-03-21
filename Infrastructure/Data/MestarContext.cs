@@ -15,5 +15,7 @@ namespace Infrastructure.Data
         }
 
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Mestar> Mestri { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

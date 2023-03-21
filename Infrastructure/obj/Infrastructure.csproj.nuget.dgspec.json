@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\TrazimMestra\\Infrastructure\\Infrastructure.csproj": {}
+    "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\TrazimMestra\\Core\\Core.csproj": {
+    "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\TrazimMestra\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "D:\\TrazimMestra\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\Fran\\.nuget\\packages\\",
-        "outputPath": "D:\\TrazimMestra\\Core\\obj\\",
+        "projectPath": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Nikola\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Fran\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nikola\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,7 +45,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -54,21 +55,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\TrazimMestra\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\TrazimMestra\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\TrazimMestra\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Fran\\.nuget\\packages\\",
-        "outputPath": "D:\\TrazimMestra\\Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Nikola\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Fran\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nikola\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -82,8 +83,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\TrazimMestra\\Core\\Core.csproj": {
-                "projectPath": "D:\\TrazimMestra\\Core\\Core.csproj"
+              "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\Nikola\\Desktop\\Algebra\\Treca_godina\\SestSemestar\\OICAR\\Projekt\\Core\\Core.csproj"
               }
             }
           }
@@ -115,7 +116,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -124,7 +126,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
