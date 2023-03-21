@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\arjan\\.nuget\\packages\\": {}
+    "C:\\Users\\Fran\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Core\\Core.csproj",
+      "projectUniqueName": "D:\\TrazimMestra\\Core\\Core.csproj",
       "projectName": "Core",
-      "projectPath": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Core\\Core.csproj",
-      "packagesPath": "C:\\Users\\arjan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Core\\obj\\",
+      "projectPath": "D:\\TrazimMestra\\Core\\Core.csproj",
+      "packagesPath": "C:\\Users\\Fran\\.nuget\\packages\\",
+      "outputPath": "D:\\TrazimMestra\\Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\arjan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Fran\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

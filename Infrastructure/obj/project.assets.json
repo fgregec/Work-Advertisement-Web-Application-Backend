@@ -972,19 +972,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\arjan\\.nuget\\packages\\": {}
+    "C:\\Users\\Fran\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "D:\\TrazimMestra\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\arjan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Infrastructure\\obj\\",
+      "projectPath": "D:\\TrazimMestra\\Infrastructure\\Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\Fran\\.nuget\\packages\\",
+      "outputPath": "D:\\TrazimMestra\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\arjan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Fran\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -998,8 +998,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Core\\Core.csproj": {
-              "projectPath": "C:\\Users\\arjan\\Desktop\\Algebra\\6. semestar\\OICAR\\Backend\\TrazimMestra\\Core\\Core.csproj"
+            "D:\\TrazimMestra\\Core\\Core.csproj": {
+              "projectPath": "D:\\TrazimMestra\\Core\\Core.csproj"
             }
           }
         }
@@ -1040,7 +1040,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
