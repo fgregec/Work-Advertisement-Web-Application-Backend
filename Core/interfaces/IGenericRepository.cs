@@ -9,13 +9,13 @@ namespace Core
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(Guid id);
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<T> GetEntityWithSpec();
         Task<IReadOnlyList<T>> ListAsyncWithSpec();
 
         void Add(T entity);
         void Update(T entity);
-        void Delete(int id);
+        void Delete(T entity);
     }
 }
