@@ -7,7 +7,7 @@ namespace TrazimMestra.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<MestarContext>(options => {
+            services.AddDbContext<ApplicationContext>(options => {
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
             return services;
