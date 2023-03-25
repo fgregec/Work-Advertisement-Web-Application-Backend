@@ -12,7 +12,7 @@ namespace Core.Entities
         {
             
         }
-        public BaseUser(string firstName, string lastName, string email, string password) : base()
+        public BaseUser(string firstName, string lastName, string email, string password)
         {
             FirstName = firstName;
             LastName = lastName;
