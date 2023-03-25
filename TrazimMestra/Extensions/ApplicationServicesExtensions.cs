@@ -10,13 +10,15 @@ namespace TrazimMestra.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+            });
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-            services.AddDbContext<MestarContext>(options => {
-                options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
-            });
+
             return services;
         }
     }
