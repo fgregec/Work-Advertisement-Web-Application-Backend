@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class MestarContext : DbContext
+    public class ApplicationContext : DbContext
     {
-        public MestarContext(DbContextOptions options) : base(options)
+        public ApplicationContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
         }
@@ -14,8 +14,9 @@ namespace Infrastructure.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Country> Countries { get; set; }
+        //public DbSet<Country> Countries { get; set; }
         public DbSet<Mestar> Mestri { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Natjecaj> Natjecaji { get; set; }
     }
 }

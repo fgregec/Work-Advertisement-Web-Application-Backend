@@ -9,6 +9,6 @@ namespace Core.Interfaces
 {
     public interface IMestarRepository : IGenericRepository<Mestar>
     {
-
+        Task<IReadOnlyList<Natjecaj>> ListResolvedNatjecaja(Guid mestarID);
     }
 }

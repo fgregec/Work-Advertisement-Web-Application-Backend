@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class Category : BaseEntity
+    public class County : BaseEntity
     {
         public string Name { get; set; }
     }
