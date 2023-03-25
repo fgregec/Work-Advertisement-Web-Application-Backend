@@ -15,5 +15,6 @@ namespace Infrastructure.Data
         }
 
         public DbSet<Country> Countries { get; set; }
+        public DbSet<BaseUser> Users { get; set; }
     }
 }
