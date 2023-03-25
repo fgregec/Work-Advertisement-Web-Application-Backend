@@ -14,6 +14,6 @@ namespace Infrastructure.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Country> Countries { get; set; }
+        public DbSet<BaseUser> Users { get; set; }
     }
 }
