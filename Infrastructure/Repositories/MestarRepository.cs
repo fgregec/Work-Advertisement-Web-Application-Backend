@@ -34,17 +34,17 @@ namespace Infrastructure.Repositories
 
         public async Task<Mestar> GetByIdAsync(Guid id)
         {
-            return await _applicationContext.Mestri.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
+            return await _applicationContext.Mestri.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IReadOnlyList<Mestar>> ListAllAsync()
         {
-            return await _applicationContext.Mestri.AsNoTracking().ToListAsync().ConfigureAwait(false);
+            return await _applicationContext.Mestri.AsNoTracking().ToListAsync();
         }
 
         public async Task<IReadOnlyList<Natjecaj>> ListResolvedNatjecaja(Guid mestarID)
         {
-            return await _applicationContext.Natjecaji.AsNoTracking().Where(x => x.MestarID == mestarID).ToListAsync().ConfigureAwait(false);
+            return await _applicationContext.Natjecaji.AsNoTracking().Where(x => x.MestarID == mestarID).ToListAsync();
         }
 
         public Task<IReadOnlyList<Mestar>> ListAsyncWithSpec()

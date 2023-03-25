@@ -16,6 +16,6 @@ namespace Core.Entities
         public bool IsEmergency { get; set; }
         public string Description { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Finished { get; set; }
+        public DateTime? Finished { get; set; }
     }
 }

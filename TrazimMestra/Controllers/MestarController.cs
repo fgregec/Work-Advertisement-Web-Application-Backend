@@ -23,9 +23,9 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var mestar = _mestarRepository.GetByIdAsync(id).Result;
+            var mestar = await _mestarRepository.GetByIdAsync(id);
             
             if (mestar == null)
             {
