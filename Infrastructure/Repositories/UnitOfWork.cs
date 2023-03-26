@@ -13,13 +13,13 @@ namespace Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MestarContext _context;
+        private readonly ApplicationContext _context;
         private Hashtable _repositories;
-        public UnitOfWork(MestarContext context)
+        public UnitOfWork(ApplicationContext context)
         {
             _context = context;
         }
-        public async Task<int> Complete()
+        public async Task<int> CommitChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
@@ -40,10 +40,10 @@ namespace Infrastructure.Repositories
             {
                 var repositoryType = typeof(GenericRepository<>);
                 var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _context);
-                _repositories.Add(repositoryType, repositoryInstance);
+                _repositories.Add(entityType, repositoryInstance);
             }
 
-            return (IGenericRepository<TEntity>)_repositories[entityType];
+            return _repositories[entityType] as IGenericRepository<TEntity>;
 
         }
     }

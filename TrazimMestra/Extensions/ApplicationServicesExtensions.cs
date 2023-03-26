@@ -2,6 +2,7 @@
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace TrazimMestra.Extensions
@@ -14,8 +15,7 @@ namespace TrazimMestra.Extensions
             {
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<IMestarRepository, MestarRepository>();
+            services.AddScoped<IMestarService, MestarService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

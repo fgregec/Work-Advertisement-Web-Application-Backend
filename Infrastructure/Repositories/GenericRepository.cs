@@ -1,32 +1,28 @@
-﻿using Core;
-using Core.Entities;
+﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly MestarContext _context;
+        private readonly ApplicationContext _context;
 
-        public GenericRepository(MestarContext context)
+        public GenericRepository(ApplicationContext context)
         {
             _context = context;
         }
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity);
+            _context.SaveChanges();
         }
 
         public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
+            _context.SaveChanges();
         }
 
         public async Task<T> GetByIdAsync(Guid id)
@@ -56,6 +52,7 @@ namespace Infrastructure.Repositories
         public void Update(T entity)
         {
             _context.Set<T>().Update(entity);
+            _context.SaveChanges();
         }
     }
 }

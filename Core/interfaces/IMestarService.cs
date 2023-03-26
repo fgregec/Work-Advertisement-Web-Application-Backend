@@ -2,7 +2,7 @@
 
 namespace Core.Interfaces
 {
-    public interface IMestarRepository
+    public interface IMestarService
     {
         Task<IReadOnlyList<Natjecaj>> ListResolvedNatjecaja(Guid mestarID);
     }
