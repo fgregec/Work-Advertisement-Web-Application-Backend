@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Core.Interfaces
 {
-    public interface IMestarRepository : IGenericRepository<Mestar>
+    public interface ICountryRepository
     {
-        Task<IReadOnlyList<Natjecaj>> ListResolvedNatjecaja(Guid mestarID);
+        public Task<IReadOnlyList<Country>> GetCountriesAsync();
     }
 }
