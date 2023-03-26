@@ -8,8 +8,8 @@ namespace TrazimMestra.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private MestarContext _repo;
-        public AccountController(MestarContext context)
+        private ApplicationContext _repo;
+        public AccountController(ApplicationContext context)
         {
             _repo = context;
         }

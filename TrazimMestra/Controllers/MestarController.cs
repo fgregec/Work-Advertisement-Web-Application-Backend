@@ -44,7 +44,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Mestar>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<Mestar>> GetById(Guid id)
         {
             var mestar = await _mestarRepository.GetByIdAsync(id);
             if (mestar == null)
@@ -56,7 +56,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListAllAsync()
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListAll()
         {
             var mestri = await _mestarRepository.ListAllAsync();
             return Ok(mestri);
