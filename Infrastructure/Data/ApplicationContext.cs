@@ -18,5 +18,6 @@ namespace Infrastructure.Data
         public DbSet<Mestar> Mestri { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Natjecaj> Natjecaji { get; set; }
+        public DbSet<BaseUser> Users { get; set; }
     }
 }
