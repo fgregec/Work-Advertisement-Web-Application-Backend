@@ -6,13 +6,11 @@ namespace TrazimMestra.Controllers
 {
     public class MestarController : BaseApiController
     {
-        private readonly IGenericRepository<Mestar> _mestarRepository;
-        private readonly IMestarService _service;
+        private readonly IGenericRepository<Mestar> _mestarRepository;        
 
-        public MestarController(IGenericRepository<Mestar> mestarRepository, IMestarService service)
+        public MestarController(IGenericRepository<Mestar> mestarRepository)
         {
             _mestarRepository = mestarRepository;
-            _service = service;
         }
 
         [HttpPost]
@@ -58,14 +56,7 @@ namespace TrazimMestra.Controllers
         {
             var mestri = await _mestarRepository.ListAllAsync();
             return Ok(mestri);
-        }
-
-        [HttpGet("resolved-natjecaji/{mestarID}")]
-        public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid mestarID)
-        {
-            var natjecaji = await _service.ListResolvedNatjecaja(mestarID);
-            return Ok(natjecaji);
-        }
+        }        
     }
 
 }
