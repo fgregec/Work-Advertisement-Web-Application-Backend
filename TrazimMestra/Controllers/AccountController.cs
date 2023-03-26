@@ -46,7 +46,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("register")]
-        public async Task<ActionResult<bool>> Register([FromQuery]BaseUser user) 
+        public async Task<ActionResult<bool>> Register([FromQuery]User user) 
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +58,5 @@ namespace TrazimMestra.Controllers
 
             return Ok(false);
         }
-
     }
 }
