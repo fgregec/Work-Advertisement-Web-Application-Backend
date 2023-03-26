@@ -2,14 +2,13 @@
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 
 namespace TrazimMestra.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private MestarContext _repo;
-        public AccountController(MestarContext context)
+        private ApplicationContext _repo;
+        public AccountController(ApplicationContext context)
         {
             _repo = context;
         }
