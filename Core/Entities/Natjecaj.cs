@@ -8,7 +8,7 @@ namespace Core.Entities
 {
     public class Natjecaj : BaseEntity
     {
-        public BaseUser User{ get; set; }
+        public User User{ get; set; }
         public Guid UserID { get; set; }
         public City City { get; set; }
         public Guid CityID { get; set; }

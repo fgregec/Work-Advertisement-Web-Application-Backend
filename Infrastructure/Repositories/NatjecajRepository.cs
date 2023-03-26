@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class NatjecajRepository : IGenericRepository<Natjecaj>
+    public class NatjecajRepository : IGenericRepository<Natjecaj>, INatjecajRepository
     {
         private readonly ApplicationContext _context;
         public NatjecajRepository(ApplicationContext context)
@@ -53,6 +53,11 @@ namespace Infrastructure.Repositories
         public Task<IReadOnlyList<Natjecaj>> ListAsyncWithSpec()
         {
             throw new NotImplementedException();
-        }        
+        }
+
+        public async Task<IEnumerable<Natjecaj>> ListResolvedNatjecaja(Guid userID)
+        {
+            return await _context.Natjecaji.AsNoTracking().Where(x => x.UserID == userID).ToListAsync();
+        }
     }
 }

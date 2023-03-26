@@ -14,7 +14,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("getuser")]
-        public async Task<ActionResult<BaseUser>> GetCurrentUser(Guid id)
+        public async Task<ActionResult<User>> GetCurrentUser(Guid id)
         {
             var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Id == id);
 

@@ -1,16 +1,19 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TrazimMestra.Controllers
 {
     public class MestarController : BaseApiController
     {
-        private readonly IGenericRepository<Mestar> _mestarRepository;        
+        private readonly IGenericRepository<Mestar> _mestarRepository;
+        private readonly NatjecajRepository _natjecajRepository;
 
-        public MestarController(IGenericRepository<Mestar> mestarRepository)
+        public MestarController(IGenericRepository<Mestar> mestarRepository, NatjecajRepository natjecajRepository)
         {
             _mestarRepository = mestarRepository;
+            _natjecajRepository = natjecajRepository;
         }
 
         [HttpPost]
@@ -56,7 +59,14 @@ namespace TrazimMestra.Controllers
         {
             var mestri = await _mestarRepository.ListAllAsync();
             return Ok(mestri);
-        }        
+        }
+
+        [HttpGet("resolved-natjecaji/{mestarID}")]
+        public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid mestarID)
+        {
+            var mestarNatjecaji = await _natjecajRepository.ListResolvedNatjecaja(mestarID);
+            return Ok(mestarNatjecaji);
+        }
     }
 
 }

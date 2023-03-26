@@ -6,11 +6,13 @@ namespace TrazimMestra.Controllers
 {
     public class UserController : BaseApiController
     {
-        private readonly UserRepository _userRepository;
+        private readonly GenericRepository<User> _userRepository;
+        private readonly NatjecajRepository _natjecajRepository;
 
-        public UserController(UserRepository userRepository)
+        public UserController(GenericRepository<User> userRepository, NatjecajRepository natjecajRepository)
         {
             _userRepository = userRepository;
+            _natjecajRepository = natjecajRepository;
         }
 
         [HttpPost]
@@ -63,7 +65,7 @@ namespace TrazimMestra.Controllers
         [HttpGet("resolved-natjecaji/{userID}")]
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid userID)
         {
-            var userNatjecaji = await _userRepository.ListResolvedNatjecaja(userID);
+            var userNatjecaji = await _natjecajRepository.ListResolvedNatjecaja(userID);
             return Ok(userNatjecaji);
         }
     }

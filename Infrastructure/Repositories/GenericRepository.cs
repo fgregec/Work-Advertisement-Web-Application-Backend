@@ -24,10 +24,24 @@ namespace Infrastructure.Repositories
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();
         }
+        public void Update(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            _context.SaveChanges();
+        }
 
         public async Task<T> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>().FindAsync(id);
+        }                
+
+        public async Task<IReadOnlyList<T>> ListAllAsync()
+        {
+           if(_context.Set<T>().Count() > 0)
+            {
+                return await _context.Set<T>().AsNoTracking().ToListAsync();
+            }
+            return new List<T>();
         }
 
         public Task<T> GetEntityWithSpec()
@@ -35,24 +49,9 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyList<T>> ListAllAsync()
-        {
-           if(_context.Set<T>().Count() > 0)
-            {
-                return await _context.Set<T>().ToListAsync();
-            }
-            return new List<T>();
-        }
-
         public Task<IReadOnlyList<T>> ListAsyncWithSpec()
         {
             throw new NotImplementedException();
-        }
-
-        public void Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-            _context.SaveChanges();
-        }
+        } 
     }
 }
