@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +9,12 @@ namespace TrazimMestra.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private MestarContext _repo;
-        public AccountController(MestarContext context)
+        private ApplicationContext _repo;
+        private readonly ITokenService _tokenService;
+        public AccountController(ApplicationContext context, ITokenService tokenService)
         {
             _repo = context;
+            _tokenService = tokenService;
         }
 
         [HttpGet("getuser")]
@@ -47,14 +50,14 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("register")]
-        public async Task<ActionResult<bool>> Register([FromQuery]BaseUser user) 
+        public async Task<ActionResult<string>> Register([FromQuery]BaseUser user) 
         {
             if (ModelState.IsValid)
             {
                 user.Id = Guid.NewGuid();
                 await _repo.Users.AddAsync(user);
                 await _repo.SaveChangesAsync();
-                return Ok(true);
+                return Ok(_tokenService.CreateToken(user));
             }
 
             return Ok(false);

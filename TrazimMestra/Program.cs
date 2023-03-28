@@ -1,4 +1,5 @@
 using TrazimMestra.Extensions;
+using TrazimMestra.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseRequestToken();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
