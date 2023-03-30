@@ -1,20 +1,24 @@
 ﻿using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TrazimMestra.Controllers
 {
     public class AccountController : BaseApiController
     {
         private ApplicationContext _repo;
-        public AccountController(ApplicationContext context)
+        private readonly ITokenService _tokenService;
+        public AccountController(ApplicationContext context, ITokenService tokenService)
         {
             _repo = context;
+            _tokenService = tokenService;
         }
 
         [HttpGet("getuser")]
-        public async Task<ActionResult<User>> GetCurrentUser(Guid id)
+        public async Task<ActionResult<BaseUser>> GetCurrentUser(Guid id)
         {
             var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Id == id);
 
@@ -46,17 +50,18 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("register")]
-        public async Task<ActionResult<bool>> Register([FromQuery]User user) 
+        public async Task<ActionResult<string>> Register([FromQuery]BaseUser user) 
         {
             if (ModelState.IsValid)
             {
                 user.Id = Guid.NewGuid();
                 await _repo.Users.AddAsync(user);
                 await _repo.SaveChangesAsync();
-                return Ok(true);
+                return Ok(_tokenService.CreateToken(user));
             }
 
             return Ok(false);
         }
+
     }
 }
