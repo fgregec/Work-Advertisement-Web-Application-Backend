@@ -66,7 +66,7 @@ namespace TrazimMestra.Controllers
         [HttpGet("resolved-natjecaji/{userID}")]
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid userID)
         {
-            var userNatjecaji = await _natjecajRepository.ListResolvedNatjecaja(userID);
+            var userNatjecaji = await _natjecajRepository.GetListResolvedNatjecaja(userID);
             return Ok(userNatjecaji);
         }
     }

@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Natjecaj>> ListResolvedNatjecaja(Guid userID)
+        public async Task<IEnumerable<Natjecaj>> GetListResolvedNatjecaja(Guid userID)
         {
             return await _context.Natjecaji.AsNoTracking().Where(x => x.UserID == userID).ToListAsync();
         }
