@@ -18,7 +18,7 @@ namespace Infrastructure.Services
             _config = config;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
         }
-        public string CreateToken(BaseUser user)
+        public string CreateToken(User user)
         {
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

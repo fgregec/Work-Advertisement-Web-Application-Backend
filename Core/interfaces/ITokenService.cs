@@ -9,7 +9,7 @@ namespace Core.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(BaseUser user);
+        string CreateToken(User user);
         Guid? ValidateJwtToken(string? token);
     }
 }
