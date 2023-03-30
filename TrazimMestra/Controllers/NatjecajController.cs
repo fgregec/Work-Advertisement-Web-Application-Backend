@@ -7,44 +7,44 @@ namespace TrazimMestra.Controllers
 {
     public class NatjecajController : BaseApiController
     {
-        private readonly NatjecajRepository _natjecajRepository;
+        private readonly IGenericRepository<Natjecaj> _repository;
 
-        public NatjecajController(NatjecajRepository natjecajRepository)
+        public NatjecajController(IGenericRepository<Natjecaj> repo)
         {
-            _natjecajRepository = natjecajRepository;
+            _repository = repo;
         }
 
         [HttpPost]
         public IActionResult Add(Natjecaj natjecaj)
         {
-            _natjecajRepository.Add(natjecaj);
+            _repository.Add(natjecaj);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var natjecaj = await _natjecajRepository.GetByIdAsync(id);
+            var natjecaj = await _repository.GetByIdAsync(id);
             if (natjecaj == null)
             {
                 return NotFound();
             }
 
-            _natjecajRepository.Delete(natjecaj);
+            _repository.Delete(natjecaj);
             return Ok();
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(Natjecaj natjecaj)
         {
-            _natjecajRepository.Update(natjecaj);
+            _repository.Update(natjecaj);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Natjecaj>> GetById(Guid id)
         {
-            var natjecaj = await _natjecajRepository.GetByIdAsync(id);
+            var natjecaj = await _repository.GetByIdAsync(id);
 
             if (natjecaj == null)
             {
@@ -57,7 +57,7 @@ namespace TrazimMestra.Controllers
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListAll()
         {
-            var natjecaji = await _natjecajRepository.ListAllAsync();
+            var natjecaji = await _repository.ListAllAsync();
             return Ok(natjecaji);
         }
     }
