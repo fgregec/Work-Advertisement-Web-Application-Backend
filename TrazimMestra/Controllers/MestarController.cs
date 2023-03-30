@@ -1,52 +1,51 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TrazimMestra.Controllers
 {
     public class MestarController : BaseApiController
     {
-        private readonly MestarRepository _mestarRepository;
+        private readonly IGenericRepository<Mestar> _repository;
+        private readonly INatjecajRepository _natjecajRepository;
 
-        public MestarController(MestarRepository mestarRepository)
+        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository)
         {
-            _mestarRepository = mestarRepository;
+            _repository = repository;
+            _natjecajRepository = natjecajRepository;
         }
 
         [HttpPost]
         public IActionResult Add(Mestar mestar)
         {
-            _mestarRepository.Add(mestar);
+            _repository.Add(mestar);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var mestar = await _mestarRepository.GetByIdAsync(id);
+            var mestar = await _repository.GetByIdAsync(id);
             
             if (mestar == null)
-            {
                 return NotFound();
-            }
             
-            _mestarRepository.Delete(mestar);
+            _repository.Delete(mestar);
             return Ok();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult Update(Mestar mestar)
         {            
-            _mestarRepository.Update(mestar);
+            _repository.Update(mestar);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Mestar>> GetByIdAsync(Guid id)
         {
-            var mestar = await _mestarRepository.GetByIdAsync(id);
+            var mestar = await _repository.GetByIdAsync(id);
             if (mestar == null)
             {
                 return NotFound();
@@ -55,18 +54,18 @@ namespace TrazimMestra.Controllers
             return Ok(mestar);
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IReadOnlyList<Mestar>>> ListAllAsync()
         {
-            var mestri = await _mestarRepository.ListAllAsync();
+            var mestri = await _repository.ListAllAsync();
             return Ok(mestri);
         }
 
         [HttpGet("resolved-natjecaji/{mestarID}")]
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid mestarID)
         {
-            var natjecaji = await _mestarRepository.ListResolvedNatjecaja(mestarID);
-            return Ok(natjecaji);
+            var mestarNatjecaji = await _natjecajRepository.GetListResolvedNatjecaja(mestarID);
+            return Ok(mestarNatjecaji);
         }
     }
 

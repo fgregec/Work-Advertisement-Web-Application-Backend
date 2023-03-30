@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Infrastructure.Data
 {
@@ -12,11 +13,15 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
-        //public DbSet<Country> Countries { get; set; }
         public DbSet<Mestar> Mestri { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Natjecaj> Natjecaji { get; set; }        
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Natjecaj> Natjecaji { get; set; }
+        public DbSet<City> Cities{ get; set; }
+        public DbSet<County> Counties{ get; set; }
+        public DbSet<Country> Countries{ get; set; }
     }
 }

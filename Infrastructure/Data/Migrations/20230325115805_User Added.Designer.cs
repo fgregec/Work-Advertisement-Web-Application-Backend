@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(MestarContext))]
+    [DbContext(typeof(ApplicationContext))]
     [Migration("20230325115805_User Added")]
     partial class UserAdded
     {
