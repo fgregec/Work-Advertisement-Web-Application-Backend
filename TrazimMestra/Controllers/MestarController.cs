@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.interfaces;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,13 @@ namespace TrazimMestra.Controllers
     {
         private readonly IGenericRepository<Mestar> _repository;
         private readonly INatjecajRepository _natjecajRepository;
+        private readonly IMestarRepository _mestarRepository;
 
-        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository)
+        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository, IMestarRepository mestarRepository)
         {
             _repository = repository;
             _natjecajRepository = natjecajRepository;
+            _mestarRepository = mestarRepository;
         }
 
         [HttpPost]
@@ -65,8 +68,37 @@ namespace TrazimMestra.Controllers
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid mestarID)
         {
             var mestarNatjecaji = await _natjecajRepository.GetListResolvedNatjecaja(mestarID);
+
+            if (mestarNatjecaji == null)
+            { 
+                return NotFound(); 
+            }
+
             return Ok(mestarNatjecaji);
         }
-    }
 
+        [HttpGet("{byName}")]
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByName(string mestar_name)
+        {
+            if (string.IsNullOrWhiteSpace(mestar_name))
+            {
+                return BadRequest("Mestar name cannot be empty or null!");
+            }
+
+            var mestri = await _mestarRepository.GetMestarByName(mestar_name);
+            return Ok(mestri);
+        }
+
+        [HttpGet("{byFilters}")]
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(IEnumerable<Category> categories, City? city)
+        {
+            if (city == null &&  categories == null)
+            {
+                return Ok(_repository.ListAllAsync());
+            }
+
+            var mestri = await _mestarRepository.GetMestarListByFilters(categories, city);
+            return Ok(mestri);
+        }        
+    }
 }

@@ -10,6 +10,6 @@ namespace Core.interfaces
     public interface IMestarRepository
     {
         Task<IEnumerable<Mestar>> GetMestarByName(string input_value);
-        Task<IEnumerable<Mestar>> GetMestarListByCategories(string[] categories);
+        Task<IEnumerable<Mestar>> GetMestarListByFilters(IEnumerable<Category> Categories, City? city);
     }
 }
