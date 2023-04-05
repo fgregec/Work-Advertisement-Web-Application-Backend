@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.Dto;
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace Core.interfaces
     public interface IMestarRepository
     {
         Task<IEnumerable<Mestar>> GetMestarByName(string input_value);
-        Task<IEnumerable<Mestar>> GetMestarListByFilters(IEnumerable<Category> Categories, City? city);
+        Task<IEnumerable<Mestar>> GetMestarListByFilters(SearchMestarDto search);
     }
 }

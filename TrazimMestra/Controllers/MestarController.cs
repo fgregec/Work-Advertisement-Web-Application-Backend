@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.Dto;
+using Core.Entities;
 using Core.interfaces;
 using Core.Interfaces;
 using Infrastructure.Repositories;
@@ -77,27 +78,29 @@ namespace TrazimMestra.Controllers
             return Ok(mestarNatjecaji);
         }
 
-        [HttpGet("{byName}")]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByName(string mestar_name)
+        [HttpPost]
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByName(FormCollection f)
         {
-            if (string.IsNullOrWhiteSpace(mestar_name))
+            string mestarName = f["mestarName"].ToString();
+
+            if (string.IsNullOrWhiteSpace(mestarName))
             {
                 return BadRequest("Mestar name cannot be empty or null!");
             }
 
-            var mestri = await _mestarRepository.GetMestarByName(mestar_name);
+            var mestri = await _mestarRepository.GetMestarByName(mestarName.ToLower());
             return Ok(mestri);
         }
 
-        [HttpGet("{byFilters}")]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(IEnumerable<Category> categories, City? city)
+        [HttpPost]
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(SearchMestarDto search)
         {
-            if (city == null &&  categories == null)
+            if (search.City == null &&  search.Categories == null)
             {
                 return Ok(_repository.ListAllAsync());
             }
 
-            var mestri = await _mestarRepository.GetMestarListByFilters(categories, city);
+            var mestri = await _mestarRepository.GetMestarListByFilters(search);
             return Ok(mestri);
         }        
     }

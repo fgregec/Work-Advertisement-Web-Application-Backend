@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.Dto;
+using Core.Entities;
 using Core.interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,24 +13,27 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Mestar>> GetMestarByName(string mestar_name)
+        public async Task<IEnumerable<Mestar>> GetMestarByName(string mestarName)
         {
+            PaginationFilter filter = new PaginationFilter();
+
             return await _context.Mestri.Where(x =>
-                   x.FirstName.ToLower().Contains(mestar_name.ToLower()) ||
-                   x.LastName.ToLower().Contains(mestar_name.ToLower()))
-                   .OrderBy(x => x.LastName)   // later will be by review
+                   x.FirstName.ToLower().Contains(mestarName) ||
+                   x.LastName.ToLower().Contains(mestarName))
+                   .Skip((filter.PageIndex - 1) * filter.PageSize)
+                   .Take(filter.PageSize)
                    .ToListAsync();
         }
 
-        public async Task<IEnumerable<Mestar>> GetMestarListByFilters(IEnumerable<Category> categories, City? city = null)
+        public async Task<IEnumerable<Mestar>> GetMestarListByFilters(SearchMestarDto search)
         {
             var mestri = await _context.Mestri.Where(mestar =>
                          mestar.Categories.Any(category =>
-                         categories.Contains(category))).ToListAsync();
+                         search.Categories.Contains(category))).ToListAsync();
 
-            if (city != null)
+            if (search.City != null)
             {
-                return mestri.Where(mestar => mestar.City.Name == city.Name);
+                return mestri.Where(mestar => mestar.City.Name == search.City.Name);
             }
 
             return mestri;
