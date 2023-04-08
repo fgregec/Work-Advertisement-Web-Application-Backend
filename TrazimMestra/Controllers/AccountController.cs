@@ -66,7 +66,10 @@ namespace TrazimMestra.Controllers
         // TEMP SWAGGER BUG FIX
         public class UserModed : User
         {
+            new private Guid Id { get; set; }
             new private City City { get; set; }
+            new private IEnumerable<Natjecaj> ListResolvedNatjecaja { get; set; }
+
         }
 
 
