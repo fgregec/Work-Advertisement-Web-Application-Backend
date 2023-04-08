@@ -50,7 +50,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("register")]
-        public async Task<ActionResult<string>> Register([FromQuery]User user) 
+        public async Task<ActionResult<string>> Register([FromQuery]UserModed user) 
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +62,13 @@ namespace TrazimMestra.Controllers
 
             return Ok(false);
         }
+
+        // TEMP SWAGGER BUG FIX
+        public class UserModed : User
+        {
+            new private City City { get; set; }
+        }
+
 
     }
 }
