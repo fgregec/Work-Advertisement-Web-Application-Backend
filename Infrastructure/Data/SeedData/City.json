@@ -1,15 +1,16 @@
-[{
+[
+  {
     "Id": "57a1b8d8-91a9-40df-9d2c-b680a914e2ab",
     "Name": "Zagreb",
-    "CountyID": "4ec4854f-431b-4ed4-a8af-186da7a954a1",
+    "CountyID": "b3a0a9a7-29de-4d5f-b2fb-14e90e62ee8e",
     "ZipCode": 10000,
     "CountryID": "0d01933e-8e90-46b7-a058-6c2d7f8c9de9"
-},
-{
+  },
+  {
     "Id": "57a1b8d8-91a9-40df-9d2c-b680a914e2cb",
     "Name": "Velika Gorica",
-    "CountyID": "4ec4854f-431b-4ed4-a8af-186da7a954a2",
+    "CountyID": "2794f24b-8dd4-41cc-b10e-7d64ccf15c97",
     "ZipCode": 10001,
     "CountryID": "0d01933e-8e90-46b7-a058-6c2d7f8c9de9"
-}
+  }
 ]
