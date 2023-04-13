@@ -4,6 +4,7 @@ using Core.interfaces;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TrazimMestra.Controllers
 {
@@ -58,7 +59,7 @@ namespace TrazimMestra.Controllers
             return Ok(mestar);
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Mestar>>> ListAllAsync()
         {
             var mestri = await _repository.ListAllAsync();
@@ -78,30 +79,24 @@ namespace TrazimMestra.Controllers
             return Ok(mestarNatjecaji);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByName(FormCollection f)
+        [HttpGet("search")]
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(SearchMestarDto search, PaginationDto pagination)
         {
-            string mestarName = f["mestarName"].ToString();
+            var mestri = await _mestarRepository.Search(search);
 
-            if (string.IsNullOrWhiteSpace(mestarName))
+            if (!mestri.Any())
+                return NotFound();
+
+            PaginationFilter<Mestar> filterData = new PaginationFilter<Mestar>
             {
-                return BadRequest("Mestar name cannot be empty or null!");
-            }
+                PageIndex = pagination.CurrentPage,
+                PageSize = pagination.PageSize,
+                Data = mestri.Skip((pagination.CurrentPage - 1) * pagination.PageSize)
+                             .Take(pagination.PageSize)
+                             .ToList()
+            };
 
-            var mestri = await _mestarRepository.GetMestarByName(mestarName.ToLower());
-            return Ok(mestri);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(SearchMestarDto search)
-        {
-            if (search.City == null &&  search.Categories == null)
-            {
-                return Ok(_repository.ListAllAsync());
-            }
-
-            var mestri = await _mestarRepository.GetMestarListByFilters(search);
-            return Ok(mestri);
+            return Ok(filterData);
         }        
     }
 }

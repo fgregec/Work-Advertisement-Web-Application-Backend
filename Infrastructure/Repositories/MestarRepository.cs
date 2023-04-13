@@ -12,29 +12,21 @@ namespace Infrastructure.Repositories
         public MestarRepository(ApplicationContext context)
         {
             _context = context;
-        }
-        public async Task<IEnumerable<Mestar>> GetMestarByName(string mestarName)
+        }        
+
+        public async Task<IEnumerable<Mestar>> Search(SearchMestarDto search)
         {
-            PaginationFilter filter = new PaginationFilter();
+            var mestri = await _context.Mestri.ToListAsync();
 
-            return await _context.Mestri.Where(x =>
-                   x.FirstName.ToLower().Contains(mestarName) ||
-                   x.LastName.ToLower().Contains(mestarName))
-                   .Skip((filter.PageIndex - 1) * filter.PageSize)
-                   .Take(filter.PageSize)
-                   .ToListAsync();
-        }
+            if (search.CategoryID.HasValue)
+                mestri.Where(m => m.Categories.Any(m => m.Id == search.CategoryID));
 
-        public async Task<IEnumerable<Mestar>> GetMestarListByFilters(SearchMestarDto search)
-        {
-            var mestri = await _context.Mestri.Where(mestar =>
-                         mestar.Categories.Any(category =>
-                         search.Categories.Contains(category))).ToListAsync();
+            if (search.CityID.HasValue)
+                mestri.Where(m => m.CityID == search.CityID);            
 
-            if (search.City != null)
-            {
-                return mestri.Where(mestar => mestar.City.Name == search.City.Name);
-            }
+            if (!string.IsNullOrWhiteSpace(search.MestarName))
+                mestri.Where(m => m.FirstName.ToLower().Contains(search.MestarName.ToLower()) ||
+                                  m.LastName.ToLower().Contains(search.MestarName.ToLower()));
 
             return mestri;
         }

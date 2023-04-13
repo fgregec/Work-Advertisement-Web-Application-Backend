@@ -4,7 +4,8 @@ namespace Core.Dto
 {
     public class SearchMestarDto
     {
-        public City City { get; set; }
-        public IEnumerable<Category> Categories { get; set; }
+        public Guid? CityID { get; set; }
+        public Guid? CategoryID { get; set; }
+        public string MestarName { get; set; }
     }
 }
