@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Core.Interfaces;
 using Infrastructure.Services;
+using Infrastructure.Repositories;
 
 namespace TrazimMestra.Extensions
 {
@@ -16,7 +17,15 @@ namespace TrazimMestra.Extensions
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddCors(o => o.AddPolicy("corspolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddAuthentication();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
