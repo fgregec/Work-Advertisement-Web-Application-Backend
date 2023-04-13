@@ -1,6 +1,3 @@
-using Core.Entities;
-using Core.Interfaces;
-using Infrastructure.Repositories;
 using TrazimMestra.Extensions;
 using TrazimMestra.Middleware;
 
