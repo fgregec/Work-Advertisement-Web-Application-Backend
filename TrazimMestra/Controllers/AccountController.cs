@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +14,22 @@ namespace TrazimMestra.Controllers
     {
         private ApplicationContext _repo;
         private readonly ITokenService _tokenService;
-        public AccountController(ApplicationContext context, ITokenService tokenService)
+        private readonly IMapper _mapper;
+        public AccountController(ApplicationContext context, ITokenService tokenService, IMapper mapper)
         {
             _repo = context;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<User>> GetCurrentUser(Guid id)
         {
-            var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var baseUser = await _repo.Users
+                                .Include(u => u.City)
+                                .ThenInclude(u => u.County)
+                                .FirstOrDefaultAsync(u => u.Id == id);
+
 
             if (baseUser == null)
             {
@@ -72,23 +79,21 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<ActionResult> Update([FromQuery] UpdateUserDto user)
+        public async Task<ActionResult<User>> Update(UpdateUserDto updateUserDto)
         {
-            User mappedUser = new User
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                CityID = user.CityID
-            };
+            var user = await _repo.Users
+                .Include(u => u.City)
+                .ThenInclude(c => c.County)
+                .FirstOrDefaultAsync(u => u.Id == updateUserDto.Id);
+            
+            if (user == null)
+                return BadRequest("User doesn't exist");
 
-            if (!string.IsNullOrEmpty(user.Password))
-                mappedUser.Password = user.Password;
+            _mapper.Map(updateUserDto, user);
 
-            _repo.Users.Update(mappedUser);
+            _repo.Users.Update(user);
             await _repo.SaveChangesAsync();
-            return Ok();
+            return Ok(user);
 
         }
 
