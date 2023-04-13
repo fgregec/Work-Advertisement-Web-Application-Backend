@@ -19,7 +19,7 @@ namespace TrazimMestra.Controllers
             _countyRepo = countyRepo;
         }
 
-        [HttpGet("filteredcities")]
+        [HttpGet("cities")]
         public async Task<ActionResult<City>> GetCities(Guid countyId)
         {
             var city = await _cityRepo.ListAllAsync();     
