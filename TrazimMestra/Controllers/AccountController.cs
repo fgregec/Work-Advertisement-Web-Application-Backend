@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
@@ -50,11 +51,18 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("register")]
-        public async Task<ActionResult<string>> Register([FromQuery]User user) 
+        public async Task<ActionResult<string>> Register([FromQuery]RegisterDto registerUser) 
         {
             if (ModelState.IsValid)
             {
+                User user = new User();
                 user.Id = Guid.NewGuid();
+                user.FirstName = registerUser.FirstName; 
+                user.LastName = registerUser.LastName;
+                user.Email = registerUser.Email;
+                user.Password = registerUser.Password;
+                user.CityID = registerUser.CityID;
+
                 await _repo.Users.AddAsync(user);
                 await _repo.SaveChangesAsync();
                 return Ok(_tokenService.CreateToken(user));
