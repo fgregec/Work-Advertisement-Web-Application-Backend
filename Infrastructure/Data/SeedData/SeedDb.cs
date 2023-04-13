@@ -1,0 +1,127 @@
+﻿using Core.Entities;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace Infrastructure.Data.SeedData
+{
+    public class SeedDb
+    {
+        public static async Task SeedAsync(ApplicationContext context)
+        {
+            List<City> cities = new List<City>();
+            List<County> counties = new List<County>();
+            List<Category> categories = new List<Category>();
+
+            Mestar mestar = new Mestar();
+            User user = new User();
+
+            if (!context.Countries.Any())
+            {
+                var countryData = File.ReadAllText("../Infrastructure/Data/SeedData/Country.json");
+                var countries = JsonSerializer.Deserialize<Country>(countryData);
+                context.Countries.AddRange(countries);
+            }
+            if (!context.Counties.Any() && !context.Cities.Any())
+            {
+                var croatiaData = File.ReadAllText("../Infrastructure/Data/SeedData/hr.json");
+                var data = JsonSerializer.Deserialize<List<CroatianData>>(croatiaData);
+
+                foreach (CroatianData result in data)
+                {
+                    if(!counties.Any(c => c.Name == result.admin_name))
+                    {
+                    counties.Add(new County() { Id = Guid.NewGuid(), Name = result.admin_name });
+                    }
+                }
+                foreach (CroatianData result in data)
+                {
+                    County county = counties.FirstOrDefault(c => c.Name == result.admin_name);
+                    cities.Add(new City()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = result.city,
+                        CountyID = county.Id,
+                        //CROATIA ONLY, EDIT WHEN ADDING ANOTHER COUNTRY
+                        CountryID = Guid.Parse("0d01933e-8e90-46b7-a058-6c2d7f8c9de9")
+                    });
+                }
+                context.Counties.AddRange(counties);
+                context.Cities.AddRange(cities);
+            }
+            if (!context.Categories.Any())
+            {
+                var categoryData = File.ReadAllText("../Infrastructure/Data/SeedData/Category.json");
+                categories = JsonSerializer.Deserialize<List<Category>>(categoryData);
+                context.Categories.AddRange(categories);
+            }
+            if (!context.Users.Any())
+            {
+                user = new User()
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "Lepi",
+                    LastName = "Miške",
+                    Email = "lepi@gmail.com",
+                    Password = "password",
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id
+                };
+                context.Users.AddRange(user);
+            }
+            if (!context.Mestri.Any())
+            {
+                mestar = new Mestar() 
+                { 
+                    Id= Guid.NewGuid(),
+                    FirstName = "Ivan",
+                    LastName = "Horvat",
+                    Email = "ivan@gmail.com",
+                    Password = "password",
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id
+                };
+
+                context.Mestri.AddRange(mestar);
+            }
+            if (!context.Natjecaji.Any())
+            {
+                List<Natjecaj> natjecaji = new List<Natjecaj>();
+                Natjecaj natjecaj = new Natjecaj()
+                {
+                    Id = Guid.NewGuid(),
+                    UserID = user.Id,
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
+                    MestarID = mestar.Id,
+                    CategoryID = categories.FirstOrDefault(c => c.Name == "Mehaničar").Id,
+                    Price = 1200,
+                    IsEmergency = false,
+                    Description = "Samo problemi tebra",
+                    Created = DateTime.UtcNow,
+                    Finished = null
+                };
+                Natjecaj natjecaj2 = new Natjecaj()
+                {
+                    Id = Guid.NewGuid(),
+                    UserID = user.Id,
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
+                    MestarID = mestar.Id,
+                    CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
+                    Price = 120,
+                    IsEmergency = true,
+                    Description = "Samo problemi brate",
+                    Created = DateTime.UtcNow,
+                    Finished = null
+                };
+
+                natjecaji.Add(natjecaj);
+                natjecaji.Add(natjecaj2);
+
+                context.Natjecaji.AddRange(natjecaji);
+            }
+            if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
+        }
+    }
+}

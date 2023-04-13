@@ -1,3 +1,6 @@
+using Infrastructure.Data;
+using Infrastructure.Data.SeedData;
+using System.Data;
 using TrazimMestra.Extensions;
 using TrazimMestra.Middleware;
 
@@ -33,5 +36,19 @@ app.UseCors("corspolicy");
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<ApplicationContext>();
+var logger = services.GetRequiredService<ILogger<Program>>();
+
+try
+{
+    await SeedDb.SeedAsync(context);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "An error occured");
+}
 
 app.Run();
