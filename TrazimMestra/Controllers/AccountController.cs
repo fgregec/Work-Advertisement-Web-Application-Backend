@@ -59,8 +59,11 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<string>> Register([FromQuery] RegisterDto registerUser)
+        public async Task<ActionResult<string>> Register([FromBody] RegisterDto registerUser)
         {
+            var userExist = await _repo.Users.FirstOrDefaultAsync(u => u.Email == registerUser.Email);
+            if (userExist != null)
+                return BadRequest("User with that email already exist!");
 
             User user = new User
             {
@@ -69,7 +72,8 @@ namespace TrazimMestra.Controllers
                 LastName = registerUser.LastName,
                 Email = registerUser.Email,
                 Password = registerUser.Password,
-                CityID = registerUser.CityID
+                CityID = registerUser.CityID,
+                IsMestar = registerUser.IsMestar
             };
 
             await _repo.Users.AddAsync(user);
