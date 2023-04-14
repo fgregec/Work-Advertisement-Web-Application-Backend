@@ -12,6 +12,11 @@ namespace TrazimMestra.Helpers
                 .ForMember(dest => dest.Password, opt => opt.Condition(src => src.Password != null))
                 .ForMember(dest => dest.City, opt => opt.Ignore())
                 .ForMember(dest => dest.ListResolvedNatjecaja, opt => opt.Ignore());
+
+            CreateMap<RegisterDto, User>()
+              .ForMember(dest => dest.Password, opt => opt.Condition(src => src.Password != null))
+              .ForMember(dest => dest.City, opt => opt.Ignore())
+              .ForMember(dest => dest.ListResolvedNatjecaja, opt => opt.Ignore());
         }
     }
 }
