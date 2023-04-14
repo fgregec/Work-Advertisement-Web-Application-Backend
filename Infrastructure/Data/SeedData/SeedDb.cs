@@ -68,7 +68,8 @@ namespace Infrastructure.Data.SeedData
                     LastName = "Miške",
                     Email = "lepi@gmail.com",
                     Password = "password",
-                    CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
+                    IsMestar = false
                 };
                 context.Users.AddRange(user);
             }
@@ -81,7 +82,8 @@ namespace Infrastructure.Data.SeedData
                     LastName = "Horvat",
                     Email = "ivan@gmail.com",
                     Password = "password",
-                    CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
+                    IsMestar = true
                 };
 
                 context.Mestri.AddRange(mestar);

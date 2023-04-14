@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230326111831_Mestar added")]
-    partial class Mestaradded
+    [Migration("20230414172234_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,33 +24,6 @@ namespace Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Core.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
                 {
@@ -97,7 +70,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("CountyID");
 
-                    b.ToTable("City");
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Core.Entities.Country", b =>
@@ -112,7 +85,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Core.Entities.County", b =>
@@ -127,43 +100,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("County");
-                });
-
-            modelBuilder.Entity("Core.Entities.Mestar", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Adress")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("CityID")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityID");
-
-                    b.ToTable("Mestri");
+                    b.ToTable("Counties");
                 });
 
             modelBuilder.Entity("Core.Entities.Natjecaj", b =>
@@ -194,15 +131,65 @@ namespace Infrastructure.Data.Migrations
                     b.Property<Guid>("MestarID")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryID");
+
+                    b.HasIndex("CityID");
+
+                    b.HasIndex("MestarID");
+
+                    b.HasIndex("UserID");
+
                     b.ToTable("Natjecaji");
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CityID")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsMestar")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityID");
+
+                    b.ToTable("Users");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Core.Entities.Mestar", b =>
+                {
+                    b.HasBaseType("Core.Entities.User");
                 });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
@@ -231,13 +218,46 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("County");
                 });
 
-            modelBuilder.Entity("Core.Entities.Mestar", b =>
+            modelBuilder.Entity("Core.Entities.Natjecaj", b =>
                 {
+                    b.HasOne("Core.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.City", "City")
                         .WithMany()
                         .HasForeignKey("CityID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Entities.Mestar", "Mestar")
+                        .WithMany()
+                        .HasForeignKey("MestarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("City");
+
+                    b.Navigation("Mestar");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.HasOne("Core.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityID");
 
                     b.Navigation("City");
                 });
