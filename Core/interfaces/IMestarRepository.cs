@@ -1,10 +1,10 @@
-﻿using Core.Dto;
-using Core.Entities;
+﻿using Core.Entities;
+using Core.Models;
 
 namespace Core.interfaces
 {
     public interface IMestarRepository
     {
-        Task<IEnumerable<Mestar>> Search(SearchMestarDto search);
+        Task<Pagination<Mestar>> Search(MestarFilter search);
     }
 }

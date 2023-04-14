@@ -1,8 +1,8 @@
-﻿using Core.Dto;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Core.Models;
 
 namespace Infrastructure.Repositories
 {
@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
             _context = context;
         }        
 
-        public async Task<IEnumerable<Mestar>> Search(SearchMestarDto search)
+        public async Task<Pagination<Mestar>> Search(MestarFilter search)
         {
             var mestri = await _context.Mestri.ToListAsync();
 
@@ -24,11 +24,20 @@ namespace Infrastructure.Repositories
             if (search.CityID.HasValue)
                 mestri.Where(m => m.CityID == search.CityID);            
 
-            if (!string.IsNullOrWhiteSpace(search.MestarName))
-                mestri.Where(m => m.FirstName.ToLower().Contains(search.MestarName.ToLower()) ||
-                                  m.LastName.ToLower().Contains(search.MestarName.ToLower()));
+            if (!string.IsNullOrWhiteSpace(search.Name))
+                mestri.Where(m => m.FirstName.ToLower().Contains(search.Name.ToLower()) ||
+                                  m.LastName.ToLower().Contains(search.Name.ToLower()));
 
-            return mestri;
+            var paginatedData = new Pagination<Mestar>
+            {
+                PageIndex = search.CurrentPage,
+                PageSize = search.PageSize,
+                Data = mestri.Skip((search.CurrentPage - 1) * search.PageSize)
+                             .Take(search.PageSize)
+                             .ToList()
+            };
+
+            return paginatedData;
         }
     }
 }

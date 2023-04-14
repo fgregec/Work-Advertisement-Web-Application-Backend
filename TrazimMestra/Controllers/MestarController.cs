@@ -1,10 +1,10 @@
-﻿using Core.Dto;
+﻿using AutoMapper;
 using Core.Entities;
 using Core.interfaces;
 using Core.Interfaces;
-using Infrastructure.Repositories;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
@@ -13,12 +13,14 @@ namespace TrazimMestra.Controllers
         private readonly IGenericRepository<Mestar> _repository;
         private readonly INatjecajRepository _natjecajRepository;
         private readonly IMestarRepository _mestarRepository;
+        private readonly IMapper _mapper;
 
-        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository, IMestarRepository mestarRepository)
+        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository, IMestarRepository mestarRepository, IMapper mapper)
         {
             _repository = repository;
             _natjecajRepository = natjecajRepository;
             _mestarRepository = mestarRepository;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -80,23 +82,11 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(SearchMestarDto search, PaginationDto pagination)
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(MestarFilter searchOptions)
         {
-            var mestri = await _mestarRepository.Search(search);
+            var mestri = await _mestarRepository.Search(searchOptions);                       
 
-            if (!mestri.Any())
-                return NotFound();
-
-            PaginationFilter<Mestar> filterData = new PaginationFilter<Mestar>
-            {
-                PageIndex = pagination.CurrentPage,
-                PageSize = pagination.PageSize,
-                Data = mestri.Skip((pagination.CurrentPage - 1) * pagination.PageSize)
-                             .Take(pagination.PageSize)
-                             .ToList()
-            };
-
-            return Ok(filterData);
+            return Ok(mestri);
         }        
     }
 }

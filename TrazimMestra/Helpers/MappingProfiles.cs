@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Models;
 using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Helpers
@@ -16,7 +17,7 @@ namespace TrazimMestra.Helpers
             CreateMap<RegisterDto, User>()
               .ForMember(dest => dest.Password, opt => opt.Condition(src => src.Password != null))
               .ForMember(dest => dest.City, opt => opt.Ignore())
-              .ForMember(dest => dest.ListResolvedNatjecaja, opt => opt.Ignore());
+              .ForMember(dest => dest.ListResolvedNatjecaja, opt => opt.Ignore());            
         }
     }
 }
