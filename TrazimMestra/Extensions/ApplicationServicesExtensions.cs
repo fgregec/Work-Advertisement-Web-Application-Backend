@@ -6,6 +6,7 @@ using System.Text;
 using Core.Interfaces;
 using Infrastructure.Services;
 using Infrastructure.Repositories;
+using TrazimMestra.Helpers;
 
 namespace TrazimMestra.Extensions
 {
@@ -13,6 +14,8 @@ namespace TrazimMestra.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.AddAutoMapper(typeof(MappingProfiles));
+
             services.AddDbContext<ApplicationContext>(options => {
                 options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
