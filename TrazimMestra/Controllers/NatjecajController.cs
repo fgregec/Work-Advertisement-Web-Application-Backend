@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using TrazimMestra.Dtos;
@@ -66,28 +67,22 @@ namespace TrazimMestra.Controllers
             return Ok();
         }
 
-        [HttpGet("allnatjecajs")]
-        public async Task<ActionResult<IReadOnlyList<NatjecajListingDto>>> ListAllNatjecaj()
-        {
-            var natjecaji = await _natjecajRepository.GetNatjecajs();
-
-            IList<NatjecajListingDto> list = new List<NatjecajListingDto>();
-
-            _mapper.Map(natjecaji, list);
-
-            return Ok(list);
-        }
-
         [HttpGet("filterednatjecajs")]
-        public async Task<ActionResult<IReadOnlyList<NatjecajListingDto>>> FilterNatjecajs(string? category, string? county, string? city)
+        public async Task<ActionResult<Pagination<NatjecajListingDto>>> FilterNatjecajs([FromQuery]NatjecajFilter filter)
         {
-            var natjecaji = await _natjecajRepository.GetFilteredNatjecajs(category, county, city);
+            var natjecaji = await _natjecajRepository.GetFilteredNatjecajs(filter);
 
             IList<NatjecajListingDto> list = new List<NatjecajListingDto>();
 
             _mapper.Map(natjecaji, list);
 
-            return Ok(list);
+            var paginated = new Pagination<NatjecajListingDto>
+            {
+                Count = natjecaji.Count(),
+                Data = list.Skip((filter.PageIndex - 1) * filter.PageSize).Take(filter.PageSize).ToList()
+            };
+
+            return Ok(paginated);
         }
 
     }

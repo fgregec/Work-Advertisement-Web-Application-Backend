@@ -4,7 +4,6 @@ using Core.interfaces;
 using Core.Interfaces;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {

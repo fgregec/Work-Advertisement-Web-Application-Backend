@@ -1,12 +1,12 @@
 ﻿using Core.Entities;
+using Core.Models;
 
 namespace Core.Interfaces
 {
     public interface INatjecajRepository
     {
         Task<IEnumerable<Natjecaj>> GetListResolvedNatjecaja(Guid id);
-        Task<IEnumerable<Natjecaj>> GetNatjecajs();
-        Task<IEnumerable<Natjecaj>> GetFilteredNatjecajs(string? category, string? county, string? city);
+        Task<IEnumerable<Natjecaj>> GetFilteredNatjecajs(NatjecajFilter filter);
 
     }
 }
