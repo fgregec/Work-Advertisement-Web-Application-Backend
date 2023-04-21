@@ -1,17 +1,22 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
     public class NatjecajController : BaseApiController
     {
         private readonly IGenericRepository<Natjecaj> _repository;
-
-        public NatjecajController(IGenericRepository<Natjecaj> repo)
+        private readonly IMapper _mapper;
+        private readonly INatjecajRepository _natjecajRepository;
+        public NatjecajController(IGenericRepository<Natjecaj> repo, IMapper mapper, INatjecajRepository natjecajRepository)
         {
             _repository = repo;
+            _mapper = mapper;
+            _natjecajRepository = natjecajRepository;
         }
 
         [HttpPost]
@@ -58,7 +63,32 @@ namespace TrazimMestra.Controllers
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListAll()
         {
             var natjecaji = await _repository.ListAllAsync();
-            return Ok(natjecaji);
+            return Ok();
         }
+
+        [HttpGet("allnatjecajs")]
+        public async Task<ActionResult<IReadOnlyList<NatjecajListingDto>>> ListAllNatjecaj()
+        {
+            var natjecaji = await _natjecajRepository.GetNatjecajs();
+
+            IList<NatjecajListingDto> list = new List<NatjecajListingDto>();
+
+            _mapper.Map(natjecaji, list);
+
+            return Ok(list);
+        }
+
+        [HttpGet("filterednatjecajs")]
+        public async Task<ActionResult<IReadOnlyList<NatjecajListingDto>>> FilterNatjecajs(string? category, string? county, string? city)
+        {
+            var natjecaji = await _natjecajRepository.GetFilteredNatjecajs(category, county, city);
+
+            IList<NatjecajListingDto> list = new List<NatjecajListingDto>();
+
+            _mapper.Map(natjecaji, list);
+
+            return Ok(list);
+        }
+
     }
 }

@@ -96,13 +96,12 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
-                    MestarID = mestar.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Mehaničar").Id,
-                    Price = 1200,
                     IsEmergency = false,
                     Description = "Samo problemi tebra",
                     Created = DateTime.UtcNow,
-                    Finished = null
+                    Finished = null,
+                    MestarID = Guid.Empty,
                 };
                 Natjecaj natjecaj2 = new Natjecaj()
                 {
@@ -115,11 +114,24 @@ namespace Infrastructure.Data.SeedData
                     IsEmergency = true,
                     Description = "Samo problemi brate",
                     Created = DateTime.UtcNow,
-                    Finished = null
+                    Finished = null,
+                };
+                Natjecaj natjecaj3 = new Natjecaj()
+                {
+                    Id = Guid.NewGuid(),
+                    UserID = user.Id,
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
+                    CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
+                    IsEmergency = true,
+                    Description = "Samo problemi brate",
+                    Created = DateTime.UtcNow,
+                    Finished = null,
+                    MestarID = Guid.Empty
                 };
 
                 natjecaji.Add(natjecaj);
                 natjecaji.Add(natjecaj2);
+                natjecaji.Add(natjecaj3);
 
                 context.Natjecaji.AddRange(natjecaji);
             }

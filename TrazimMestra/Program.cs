@@ -1,5 +1,7 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.SeedData;
+using Infrastructure.Repositories;
 using System.Data;
 using TrazimMestra.Extensions;
 using TrazimMestra.Middleware;
@@ -19,7 +21,7 @@ builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 }));
 
 builder.Services.AddApplicationServices(builder.Configuration);
-
+builder.Services.AddScoped<INatjecajRepository, NatjecajRepository>();
 var app = builder.Build();
 
 app.UseRequestToken();

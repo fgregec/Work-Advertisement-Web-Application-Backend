@@ -12,11 +12,13 @@ namespace TrazimMestra.Controllers
     {
         private readonly IGenericRepository<City> _cityRepo;
         private readonly IGenericRepository<County> _countyRepo;
+        private readonly IGenericRepository<Category> _categoryRepo;
 
-        public DataController(IGenericRepository<City> cityRepo, IGenericRepository<County> countyRepo)
+        public DataController(IGenericRepository<City> cityRepo, IGenericRepository<County> countyRepo, IGenericRepository<Category> categoryRepo)
         { 
             _cityRepo = cityRepo;
             _countyRepo = countyRepo;
+            _categoryRepo = categoryRepo;
         }
 
         [HttpGet("cities")]
@@ -43,6 +45,19 @@ namespace TrazimMestra.Controllers
             }
 
             return Ok(counties);
+        }
+
+        [HttpGet("categories")]
+        public async Task<ActionResult<County>> GetCategories()
+        {
+            var categories = await _categoryRepo.ListAllAsync();
+
+            if (categories == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(categories);
         }
 
     }
