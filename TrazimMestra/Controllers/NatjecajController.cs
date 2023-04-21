@@ -64,7 +64,7 @@ namespace TrazimMestra.Controllers
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListAll()
         {
             var natjecaji = await _repository.ListAllAsync();
-            return Ok();
+            return Ok(natjecaji);
         }
 
         [HttpGet("filterednatjecajs")]
