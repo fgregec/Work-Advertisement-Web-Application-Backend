@@ -1,7 +1,10 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
+using Core.interfaces;
 using Core.Interfaces;
-using Infrastructure.Repositories;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
@@ -9,11 +12,15 @@ namespace TrazimMestra.Controllers
     {
         private readonly IGenericRepository<Mestar> _repository;
         private readonly INatjecajRepository _natjecajRepository;
+        private readonly IMestarRepository _mestarRepository;
+        private readonly IMapper _mapper;
 
-        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository)
+        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository, IMestarRepository mestarRepository, IMapper mapper)
         {
             _repository = repository;
             _natjecajRepository = natjecajRepository;
+            _mestarRepository = mestarRepository;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -54,7 +61,7 @@ namespace TrazimMestra.Controllers
             return Ok(mestar);
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Mestar>>> ListAllAsync()
         {
             var mestri = await _repository.ListAllAsync();
@@ -65,8 +72,21 @@ namespace TrazimMestra.Controllers
         public async Task<ActionResult<IReadOnlyList<Natjecaj>>> ListResolvedNatjecaja(Guid mestarID)
         {
             var mestarNatjecaji = await _natjecajRepository.GetListResolvedNatjecaja(mestarID);
+
+            if (mestarNatjecaji == null)
+            { 
+                return NotFound(); 
+            }
+
             return Ok(mestarNatjecaji);
         }
-    }
 
+        [HttpGet("search")]
+        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(MestarFilter searchOptions)
+        {
+            var mestri = await _mestarRepository.Search(searchOptions);                       
+
+            return Ok(mestri);
+        }        
+    }
 }

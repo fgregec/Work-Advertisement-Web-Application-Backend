@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Models;
 using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Helpers
