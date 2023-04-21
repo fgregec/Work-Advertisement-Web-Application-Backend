@@ -25,15 +25,6 @@ namespace Infrastructure.Repositories
             return await _context.Natjecaji.AsNoTracking().Where(x => x.UserID == userID).ToListAsync();
         }
 
-        public async Task<IEnumerable<Natjecaj>> GetNatjecajs()
-        {
-            return await _context.Natjecaji
-                .Include(n => n.User)
-                .Include(n => n.City).ThenInclude(c => c.County)
-                .Include(n => n.Category)
-                .Where(n => n.MestarID == Guid.Empty && n.Price == 0).ToListAsync();
-        }
-
         public async Task<IEnumerable<Natjecaj>> GetFilteredNatjecajs(NatjecajFilter filter)
         {
             var query = _context.Natjecaji
