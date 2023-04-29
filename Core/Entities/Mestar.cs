@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
     public class Mestar : User
     {
-        public IEnumerable<Category> Categories { get; set; }
+        public Mestar()
+        {
+            IsMestar = true;
+        }
+
+        [NotMapped]
+        public decimal Rating { get; set; }
+        [NotMapped]
+        public int Reviews { get; set; }
+        public ICollection<MestarCategory> MestarCategories { get; set; }
     }
 }

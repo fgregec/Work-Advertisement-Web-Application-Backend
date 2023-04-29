@@ -17,9 +17,8 @@ namespace Infrastructure.Data.SeedData
             List<County> counties = new List<County>();
             List<Category> categories = new List<Category>();
 
-            Mestar mestar = new Mestar();
             User user = new User();
-
+            Mestar ivan = new Mestar();
             if (!context.Countries.Any())
             {
                 var countryData = File.ReadAllText("../Infrastructure/Data/SeedData/Country.json");
@@ -75,18 +74,56 @@ namespace Infrastructure.Data.SeedData
             }
             if (!context.Mestri.Any())
             {
-                mestar = new Mestar() 
+
+                ivan = new Mestar() 
                 { 
-                    Id= Guid.NewGuid(),
+                    Id= Guid.Parse("a3f63892-1425-403c-9e73-1059e6113826"),
                     FirstName = "Ivan",
                     LastName = "Horvat",
                     Email = "ivan@gmail.com",
                     Password = "password",
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
-                    IsMestar = true
                 };
 
-                context.Mestri.AddRange(mestar);
+                var kerum = new Mestar()
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "Kerum",
+                    LastName = "Horvat",
+                    Email = "kmerum@gmail.com",
+                    Password = "password",
+                    Description = "Najjači splićo ikad",
+                    CityID = cities.FirstOrDefault(g => g.Name == "Split").Id,
+                };
+                context.Mestri.Add(ivan);
+                context.Mestri.Add(kerum);
+
+                if (!context.MestarCategories.Any())
+                {
+                    var mestarCategory = new List<MestarCategory> {
+                    new MestarCategory{
+                        Id = Guid.NewGuid(),
+                        MestarId = ivan.Id,
+                        Mestar = ivan,
+                        Category = categories[0],
+                        CategoryId = categories[0].Id
+                    } ,
+                     new MestarCategory{
+                        Id = Guid.NewGuid(),
+                        MestarId = ivan.Id,
+                        Mestar = ivan,
+                        Category = categories[1],
+                        CategoryId = categories[1].Id
+                    },
+                     new MestarCategory{
+                        Id = Guid.NewGuid(),
+                        MestarId = kerum.Id,
+                        Mestar = kerum,
+                        Category = categories[1],
+                        CategoryId = categories[1].Id
+                    } };
+                    context.MestarCategories.AddRange(mestarCategory);
+                }
             }
             if (!context.Natjecaji.Any())
             {
@@ -96,7 +133,7 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
-                    MestarID = mestar.Id,
+                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Mehaničar").Id,
                     Price = 1200,
                     IsEmergency = false,
@@ -109,7 +146,7 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
-                    MestarID = mestar.Id,
+                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
                     Price = 120,
                     IsEmergency = true,
@@ -123,7 +160,27 @@ namespace Infrastructure.Data.SeedData
 
                 context.Natjecaji.AddRange(natjecaji);
             }
-            if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
+
+            if (!context.Reviews.Any())
+            {
+                var reviewIvana = new Review
+                {
+                    Id = Guid.NewGuid(),
+                    Mestar = ivan,
+                    MestarId = ivan.Id,
+                    Reviewer = user,
+                    ReviewerId = user.Id,
+                    City = cities.FirstOrDefault(g => g.Name == "Zagreb"),
+                    CityId = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
+                    Rating = (decimal)4.6,
+                    Description = "Odličan posao!"
+                };
+
+                context.Reviews.AddRange(reviewIvana);
+            }
+
+            if (context.ChangeTracker.HasChanges()) 
+                await context.SaveChangesAsync();
         }
     }
 }
