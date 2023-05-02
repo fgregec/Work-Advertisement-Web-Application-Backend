@@ -7,6 +7,7 @@ using Core.Interfaces;
 using Infrastructure.Services;
 using Infrastructure.Repositories;
 using TrazimMestra.Helpers;
+using Core.interfaces;
 
 namespace TrazimMestra.Extensions
 {
@@ -28,6 +29,8 @@ namespace TrazimMestra.Extensions
             }));
 
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<INatjecajRepository, NatjecajRepository>();
+            services.AddScoped<IMestarRepository, MestarRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddAuthentication();

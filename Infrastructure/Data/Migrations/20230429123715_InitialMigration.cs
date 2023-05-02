@@ -12,6 +12,18 @@ namespace Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Counties",
                 columns: table => new
                 {
@@ -70,9 +82,11 @@ namespace Infrastructure.Data.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: true),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    CityID = table.Column<Guid>(type: "uuid", nullable: true),
+                    CityID = table.Column<Guid>(type: "uuid", nullable: false),
                     IsMestar = table.Column<bool>(type: "boolean", nullable: false),
+                    Discriminator = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,25 +95,33 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Users_Cities_CityID",
                         column: x => x.CityID,
                         principalTable: "Cities",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "MestarCategories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    MestarId = table.Column<Guid>(type: "uuid", nullable: true)
+                    MestarId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_MestarCategories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_Users_MestarId",
+                        name: "FK_MestarCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MestarCategories_Users_MestarId",
                         column: x => x.MestarId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,10 +168,39 @@ namespace Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Categories_MestarId",
-                table: "Categories",
-                column: "MestarId");
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MestarId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReviewerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CityId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Rating = table.Column<decimal>(type: "numeric", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_MestarId",
+                        column: x => x.MestarId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_ReviewerId",
+                        column: x => x.ReviewerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryID",
@@ -160,6 +211,16 @@ namespace Infrastructure.Data.Migrations
                 name: "IX_Cities_CountyID",
                 table: "Cities",
                 column: "CountyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MestarCategories_CategoryId",
+                table: "MestarCategories",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MestarCategories_MestarId",
+                table: "MestarCategories",
+                column: "MestarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Natjecaji_CategoryID",
@@ -182,6 +243,21 @@ namespace Infrastructure.Data.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_CityId",
+                table: "Reviews",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_MestarId",
+                table: "Reviews",
+                column: "MestarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_ReviewerId",
+                table: "Reviews",
+                column: "ReviewerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_CityID",
                 table: "Users",
                 column: "CityID");
@@ -191,7 +267,13 @@ namespace Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "MestarCategories");
+
+            migrationBuilder.DropTable(
                 name: "Natjecaji");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Categories");

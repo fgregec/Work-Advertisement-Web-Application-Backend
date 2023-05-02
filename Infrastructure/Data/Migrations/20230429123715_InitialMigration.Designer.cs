@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230414172234_InitialMigration")]
+    [Migration("20230429123715_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -31,16 +31,11 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("MestarId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MestarId");
 
                     b.ToTable("Categories");
                 });
@@ -103,6 +98,27 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Counties");
                 });
 
+            modelBuilder.Entity("Core.Entities.MestarCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MestarId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("MestarId");
+
+                    b.ToTable("MestarCategories");
+                });
+
             modelBuilder.Entity("Core.Entities.Natjecaj", b =>
                 {
                     b.Property<Guid>("Id")
@@ -150,14 +166,55 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Natjecaji");
                 });
 
+            modelBuilder.Entity("Core.Entities.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MestarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("ReviewerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("MestarId");
+
+                    b.HasIndex("ReviewerId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CityID")
+                    b.Property<Guid>("CityID")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -184,19 +241,16 @@ namespace Infrastructure.Data.Migrations
 
                     b.ToTable("Users");
 
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+
                     b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Core.Entities.Mestar", b =>
                 {
                     b.HasBaseType("Core.Entities.User");
-                });
 
-            modelBuilder.Entity("Core.Entities.Category", b =>
-                {
-                    b.HasOne("Core.Entities.Mestar", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("MestarId");
+                    b.HasDiscriminator().HasValue("Mestar");
                 });
 
             modelBuilder.Entity("Core.Entities.City", b =>
@@ -216,6 +270,25 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Country");
 
                     b.Navigation("County");
+                });
+
+            modelBuilder.Entity("Core.Entities.MestarCategory", b =>
+                {
+                    b.HasOne("Core.Entities.Category", "Category")
+                        .WithMany("MestarCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Mestar", "Mestar")
+                        .WithMany("MestarCategories")
+                        .HasForeignKey("MestarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Mestar");
                 });
 
             modelBuilder.Entity("Core.Entities.Natjecaj", b =>
@@ -253,18 +326,57 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Entities.Review", b =>
+                {
+                    b.HasOne("Core.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Mestar", "Mestar")
+                        .WithMany()
+                        .HasForeignKey("MestarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.User", "Reviewer")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ReviewerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Mestar");
+
+                    b.Navigation("Reviewer");
+                });
+
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.HasOne("Core.Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityID");
+                        .HasForeignKey("CityID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("Core.Entities.Category", b =>
+                {
+                    b.Navigation("MestarCategories");
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("Core.Entities.Mestar", b =>
                 {
-                    b.Navigation("Categories");
+                    b.Navigation("MestarCategories");
                 });
 #pragma warning restore 612, 618
         }
