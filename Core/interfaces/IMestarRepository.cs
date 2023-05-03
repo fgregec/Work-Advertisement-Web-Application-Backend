@@ -5,6 +5,6 @@ namespace Core.interfaces
 {
     public interface IMestarRepository
     {
-        Task<Pagination<Mestar>> Search(MestarFilter search);
+        Task<IEnumerable<Mestar>> Search(MestarFilter search);
     }
 }

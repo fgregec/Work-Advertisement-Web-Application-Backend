@@ -10,16 +10,18 @@ namespace TrazimMestra.Controllers
     public class MestarController : BaseApiController
     {
         private readonly IGenericRepository<Mestar> _repository;
+        private readonly IGenericRepository<Category> _categoryRepository;
         private readonly INatjecajRepository _natjecajRepository;
         private readonly IMestarRepository _mestarRepository;
         private readonly IMapper _mapper;
 
-        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository, IMestarRepository mestarRepository, IMapper mapper)
+        public MestarController(IGenericRepository<Mestar> repository, INatjecajRepository natjecajRepository, IMestarRepository mestarRepository, IMapper mapper, IGenericRepository<Category> categoryRepository)
         {
             _repository = repository;
             _natjecajRepository = natjecajRepository;
             _mestarRepository = mestarRepository;
             _mapper = mapper;
+            _categoryRepository = categoryRepository;
         }
 
         [HttpPost]
@@ -81,11 +83,27 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IReadOnlyList<Mestar>>> ListByFilters(MestarFilter searchOptions)
+        public async Task<ActionResult<Pagination<MestarDto>>> ListByFilters([FromQuery] MestarFilter searchOptions)
         {
-            var mestri = await _mestarRepository.Search(searchOptions);                       
+            var mestri = await _mestarRepository.Search(searchOptions);
 
-            return Ok(mestri);
-        }        
+            var mestriDto = _mapper.Map<IReadOnlyList<Mestar>, IReadOnlyList<MestarDto>>(mestri.ToList());
+
+            var paginatedData = new Pagination<MestarDto>
+            {
+                Count = mestriDto.Count,
+                Data = mestriDto,
+                PageSize = searchOptions.PageSize,
+                PageIndex = searchOptions.CurrentPage
+            };
+
+            return Ok(paginatedData);
+        }
+
+        [HttpGet("categories")]
+        public async Task<IEnumerable<Category>> Categories()
+        {
+            return await _categoryRepository.ListAllAsync();
+        }
     }
 }

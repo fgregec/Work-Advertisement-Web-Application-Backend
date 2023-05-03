@@ -17,9 +17,8 @@ namespace Infrastructure.Data.SeedData
             List<County> counties = new List<County>();
             List<Category> categories = new List<Category>();
 
-            Mestar mestar = new Mestar();
             User user = new User();
-
+            Mestar ivan = new Mestar();
             if (!context.Countries.Any())
             {
                 var countryData = File.ReadAllText("../Infrastructure/Data/SeedData/Country.json");
@@ -75,15 +74,15 @@ namespace Infrastructure.Data.SeedData
             }
             if (!context.Mestri.Any())
             {
-                mestar = new Mestar() 
+
+                ivan = new Mestar() 
                 { 
-                    Id= Guid.NewGuid(),
+                    Id= Guid.Parse("a3f63892-1425-403c-9e73-1059e6113826"),
                     FirstName = "Ivan",
                     LastName = "Horvat",
                     Email = "ivan@gmail.com",
                     Password = "password",
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
-                    IsMestar = true
                 };
 
                 context.Mestri.AddRange(mestar);
@@ -96,6 +95,7 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
+                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Mehaničar").Id,
                     IsEmergency = false,
                     Description = "Samo problemi tebra",
@@ -116,6 +116,7 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
+                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
                     IsEmergency = true,
                     Description = "Samo problemi brate",
@@ -128,7 +129,27 @@ namespace Infrastructure.Data.SeedData
 
                 context.Natjecaji.AddRange(natjecaji);
             }
-            if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
+
+            if (!context.Reviews.Any())
+            {
+                var reviewIvana = new Review
+                {
+                    Id = Guid.NewGuid(),
+                    Mestar = ivan,
+                    MestarId = ivan.Id,
+                    Reviewer = user,
+                    ReviewerId = user.Id,
+                    City = cities.FirstOrDefault(g => g.Name == "Zagreb"),
+                    CityId = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
+                    Rating = (decimal)4.6,
+                    Description = "Odličan posao!"
+                };
+
+                context.Reviews.AddRange(reviewIvana);
+            }
+
+            if (context.ChangeTracker.HasChanges()) 
+                await context.SaveChangesAsync();
         }
     }
 }
