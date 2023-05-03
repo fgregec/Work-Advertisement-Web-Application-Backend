@@ -85,7 +85,7 @@ namespace Infrastructure.Data.SeedData
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
                 };
 
-                context.Mestri.AddRange(mestar);
+                context.Mestri.AddRange(ivan);
             }
             if (!context.Natjecaji.Any())
             {
@@ -95,7 +95,6 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
-                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Mehaničar").Id,
                     IsEmergency = false,
                     Description = "Samo problemi tebra",
@@ -116,7 +115,6 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
-                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
                     IsEmergency = true,
                     Description = "Samo problemi brate",

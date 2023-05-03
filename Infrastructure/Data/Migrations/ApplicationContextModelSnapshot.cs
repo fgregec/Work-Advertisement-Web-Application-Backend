@@ -95,6 +95,27 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Counties");
                 });
 
+            modelBuilder.Entity("Core.Entities.MestarCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MestarId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("MestarId");
+
+                    b.ToTable("MestarCategories");
+                });
+
             modelBuilder.Entity("Core.Entities.Natjecaj", b =>
                 {
                     b.Property<Guid>("Id")
@@ -129,6 +150,37 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Natjecaji");
+                });
+
+            modelBuilder.Entity("Core.Entities.NatjecajStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("MestarDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MestarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("NatjecajId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MestarId");
+
+                    b.HasIndex("NatjecajId");
+
+                    b.ToTable("NatjecajStatus");
                 });
 
             modelBuilder.Entity("Core.Entities.Review", b =>
