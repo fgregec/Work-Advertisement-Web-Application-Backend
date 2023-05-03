@@ -100,21 +100,16 @@ namespace Infrastructure.Data.SeedData
                     IsEmergency = false,
                     Description = "Samo problemi tebra",
                     Created = DateTime.UtcNow,
-                    Finished = null,
-                    MestarID = Guid.Empty,
                 };
                 Natjecaj natjecaj2 = new Natjecaj()
                 {
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
-                    MestarID = mestar.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
-                    Price = 120,
                     IsEmergency = true,
                     Description = "Samo problemi brate",
                     Created = DateTime.UtcNow,
-                    Finished = null,
                 };
                 Natjecaj natjecaj3 = new Natjecaj()
                 {
@@ -125,8 +120,6 @@ namespace Infrastructure.Data.SeedData
                     IsEmergency = true,
                     Description = "Samo problemi brate",
                     Created = DateTime.UtcNow,
-                    Finished = null,
-                    MestarID = Guid.Empty
                 };
 
                 natjecaji.Add(natjecaj);

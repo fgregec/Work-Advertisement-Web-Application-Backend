@@ -3,6 +3,7 @@ using Core.Interfaces;
 using Core.Models;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,10 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Natjecaj>> GetFilteredNatjecajs(NatjecajFilter filter)
         {
-            var query = _context.Natjecaji
+            IQueryable<Natjecaj> query = _context.Natjecaji
                 .Include(n => n.User)
                 .Include(n => n.City).ThenInclude(c => c.County)
-                .Include(n => n.Category)
-                .Where(n => n.MestarID == Guid.Empty && n.Price == 0);
+                .Include(n => n.Category);
 
             if (!string.IsNullOrEmpty(filter.Category))
             {
@@ -47,6 +47,7 @@ namespace Infrastructure.Repositories
             {
                 query = query.Where(n => n.City.Name == filter.City);
             }
+
             if (filter.Emergency)
             {
                 query = query.Where(n => n.IsEmergency);
