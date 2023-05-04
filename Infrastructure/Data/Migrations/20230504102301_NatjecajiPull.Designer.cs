@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230503093203_Natjecaj")]
-    partial class Natjecaj
+    [Migration("20230504102301_NatjecajiPull")]
+    partial class NatjecajiPull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,13 +155,13 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Natjecaji");
                 });
 
-            modelBuilder.Entity("Core.Entities.NatjecajStatus", b =>
+            modelBuilder.Entity("Core.Entities.Offer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("MestarDescription")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -181,9 +181,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("MestarId");
 
-                    b.HasIndex("NatjecajId");
-
-                    b.ToTable("NatjecajStatus");
+                    b.ToTable("Offers");
                 });
 
             modelBuilder.Entity("Core.Entities.Review", b =>
@@ -338,7 +336,7 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Core.Entities.NatjecajStatus", b =>
+            modelBuilder.Entity("Core.Entities.Offer", b =>
                 {
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany()
@@ -346,15 +344,7 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Natjecaj", "Natjecaj")
-                        .WithMany()
-                        .HasForeignKey("NatjecajId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Mestar");
-
-                    b.Navigation("Natjecaj");
                 });
 
             modelBuilder.Entity("Core.Entities.Review", b =>

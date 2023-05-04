@@ -2,7 +2,7 @@
 
 namespace TrazimMestra.Dtos
 {
-    public class NatjecajListingDto
+    public class NatjecajDto
     {
         public Guid Id { get; set; }
         public BasicUserDto User { get; set; }

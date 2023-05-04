@@ -33,19 +33,19 @@ namespace Infrastructure.Repositories
                 .Include(n => n.City).ThenInclude(c => c.County)
                 .Include(n => n.Category);
 
-            if (!string.IsNullOrEmpty(filter.Category))
+            if (filter.Category != null)
             {
-                query = query.Where(n => n.Category.Name == filter.Category);
+                query = query.Where(n => filter.Category.Contains(n.CategoryID));
             }
 
-            if (!string.IsNullOrEmpty(filter.County))
+            if (filter.County != null)
             {
-                query = query.Where(n => n.City.County.Name == filter.County);
+                query = query.Where(n => filter.County.Contains(n.City.CountyID));
             }
 
-            if (!string.IsNullOrEmpty(filter.City))
+            if (filter.City != null)
             {
-                query = query.Where(n => n.City.Name == filter.City);
+                query = query.Where(n => filter.City.Contains(n.City.Id));
             }
 
             if (filter.Emergency)

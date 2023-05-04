@@ -67,19 +67,21 @@ namespace TrazimMestra.Controllers
             return Ok(natjecaji);
         }
 
-        [HttpGet("filterednatjecajs")]
-        public async Task<ActionResult<Pagination<NatjecajListingDto>>> FilterNatjecajs([FromQuery]NatjecajFilter filter)
+        [HttpGet("search")]
+        public async Task<ActionResult<Pagination<NatjecajDto>>> FilterNatjecajs([FromQuery]NatjecajFilter filter)
         {
             var natjecaji = await _natjecajRepository.GetFilteredNatjecajs(filter);
 
-            IList<NatjecajListingDto> list = new List<NatjecajListingDto>();
+            IList<NatjecajDto> mappedResults = new List<NatjecajDto>();
 
-            _mapper.Map(natjecaji, list);
+            _mapper.Map(natjecaji, mappedResults);
 
-            var paginated = new Pagination<NatjecajListingDto>
+            var paginated = new Pagination<NatjecajDto>
             {
                 Count = natjecaji.Count(),
-                Data = list.Skip((filter.PageIndex - 1) * filter.PageSize).Take(filter.PageSize).ToList()
+                PageSize = filter.PageSize,
+                PageIndex = filter.PageIndex,
+                Data = mappedResults.Skip((filter.PageIndex - 1) * filter.PageSize).Take(filter.PageSize).ToList()
             };
 
             return Ok(paginated);

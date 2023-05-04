@@ -8,9 +8,9 @@ namespace Core.Models
 {
     public class NatjecajFilter
     {
-        public string? Category { get; set; }
-        public string? County { get; set; }
-        public string? City { get; set; }
+        public IEnumerable<Guid>? Category { get; set; }
+        public IEnumerable<Guid>? County { get; set; }
+        public IEnumerable<Guid>? City { get; set; }
         public bool Emergency { get; set; }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

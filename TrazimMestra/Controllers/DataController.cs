@@ -54,7 +54,7 @@ namespace TrazimMestra.Controllers
 
             if (categories == null)
             {
-                return NotFound();
+                return Ok();
             }
 
             return Ok(categories);

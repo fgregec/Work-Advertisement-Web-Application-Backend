@@ -21,8 +21,6 @@ builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 
 builder.Services.AddApplicationServices(builder.Configuration);
 
-builder.Services.AddScoped<INatjecajRepository, NatjecajRepository>();
-
 var app = builder.Build();
 
 app.UseRequestToken();
