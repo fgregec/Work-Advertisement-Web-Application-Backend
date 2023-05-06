@@ -220,7 +220,7 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_MestarCategories_MestarId",
                 table: "MestarCategories",
-                column: "MestarId");
+                column: "MestarID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Natjecaji_CategoryID",
@@ -250,7 +250,7 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_MestarId",
                 table: "Reviews",
-                column: "MestarId");
+                column: "MestarID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ReviewerId",
