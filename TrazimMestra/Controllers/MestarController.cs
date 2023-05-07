@@ -105,20 +105,6 @@ namespace TrazimMestra.Controllers
         public async Task<IEnumerable<Category>> Categories()
         {
             return await _categoryRepository.ListAllAsync();
-        }
-
-        [HttpPost("profit")]
-        public async Task<IActionResult> AddMestarProfit(MestarProfit mestarProfit)
-        {
-            await _mestarRepository.AddMestarProfit(mestarProfit);
-            return Ok();
-        }
-
-        [HttpGet("mestar-profit")]
-        public async Task<ActionResult<MestarProfitModel>> MestarProfit(MestarProfitModel profitModel)
-        {
-            var mestarProfit = await _mestarRepository.GetMestarProfit(profitModel);
-            return Ok(mestarProfit);
-        }
+        }        
     }
 }

@@ -65,25 +65,6 @@ namespace Infrastructure.Repositories
                 mestar.Rating = rating;
                 mestar.Reviews = reviews.Count();
             });
-        }
-
-        public async Task AddMestarProfit(MestarProfit mestarProfit)
-        {
-            _context.MestarProfit.Add(mestarProfit);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<MestarProfitModel> GetMestarProfit(MestarProfitModel profitModel)
-        {
-            var mestarProfitList = _context.MestarProfit
-                                           .Where(mp => mp.MestarID == profitModel.MestarID 
-                                                  && mp.TimeOfProfit >= profitModel.From
-                                                  && mp.TimeOfProfit <= profitModel.Until)
-                                           .ToList();
-
-            profitModel.Profit = mestarProfitList.Sum(mp => mp.Profit);
-
-            return profitModel;
-        }
+        }        
     }
 }
