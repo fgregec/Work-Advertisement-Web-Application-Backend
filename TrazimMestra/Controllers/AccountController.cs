@@ -62,8 +62,7 @@ namespace TrazimMestra.Controllers
             }
 
 
-            //return Ok(_tokenService.CreateToken(baseUser));
-            return Ok(baseUser);
+            return Ok(_tokenService.CreateToken(baseUser));
         }
 
         [HttpPost("register")]
