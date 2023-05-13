@@ -47,7 +47,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login([FromBody] LoginUserDto loginUser)
+        public async Task<ActionResult<string>> Login([FromBody] LoginUserDto loginUser)
         {
             var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Email == loginUser.Email);
 
