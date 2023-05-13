@@ -61,7 +61,6 @@ namespace TrazimMestra.Controllers
                 return BadRequest("Incorrect data");
             }
 
-
             return Ok(_tokenService.CreateToken(baseUser));
         }
 

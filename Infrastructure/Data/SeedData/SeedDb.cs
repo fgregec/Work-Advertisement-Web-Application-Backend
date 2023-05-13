@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ namespace Infrastructure.Data.SeedData
                     FirstName = "Lepi",
                     LastName = "Miške",
                     Email = "lepi@gmail.com",
-                    Password = "password",
+                    Password = SecretHasher.Hash("password"),
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
                     IsMestar = false
                 };
@@ -81,7 +82,7 @@ namespace Infrastructure.Data.SeedData
                     FirstName = "Ivan",
                     LastName = "Horvat",
                     Email = "ivan@gmail.com",
-                    Password = "password",
+                    Password = SecretHasher.Hash("password"),
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
                 };
 
@@ -91,7 +92,7 @@ namespace Infrastructure.Data.SeedData
                     FirstName = "Kerum",
                     LastName = "Horvat",
                     Email = "kmerum@gmail.com",
-                    Password = "password",
+                    Password = SecretHasher.Hash("password"),
                     Description = "Najjači splićo ikad",
                     CityID = cities.FirstOrDefault(g => g.Name == "Split").Id,
                 };
