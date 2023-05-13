@@ -23,15 +23,19 @@ namespace TrazimMestra.Extensions
 
             services.AddCors(o => o.AddPolicy("corspolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:4200")
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .WithOrigins("http://localhost:4200");
             }));
+            services.AddSignalR();
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<INatjecajRepository, NatjecajRepository>();
             services.AddScoped<IMestarRepository, MestarRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IChatRepository, ChatRepository>();
 
             services.AddAuthentication();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
