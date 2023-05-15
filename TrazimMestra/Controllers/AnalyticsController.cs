@@ -1,46 +1,28 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.interfaces;
-using Core.Interfaces;
-using Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
     public class AnalyticsController : BaseApiController
     {
         private readonly IAnalyticsRepository _analyticsRepository;
-        private readonly IGenericRepository<MestarProfit> _repository;
+        private readonly IMapper _mapper;
 
-        public AnalyticsController(IGenericRepository<MestarProfit> repository, IAnalyticsRepository analyticsRepository)
+        public AnalyticsController(IAnalyticsRepository analyticsRepository)
         {
-            _repository = repository;
             _analyticsRepository = analyticsRepository;
         }
 
-        [HttpPost("profit")]
-        public async Task<IActionResult> AddMestarProfit(MestarProfit mestarProfit)
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<AnalyticsDto>>> MestarProfit(Guid mestarID, DateTime? from, DateTime? until)
         {
-            _repository.Add(mestarProfit);
-            return Ok();
-        }
+            var natjecajList = await _analyticsRepository.GetMestarProfit(mestarID, from, until);            
+            var analyticsDtos = _mapper.Map<IReadOnlyList<Natjecaj>, IReadOnlyList<AnalyticsDto>>(natjecajList);
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var mestarProfit= await _repository.GetByIdAsync(id);
-
-            if (mestarProfit == null)
-                return NotFound();            
-
-            _repository.Delete(mestarProfit);
-            return Ok();
-        }
-
-        [HttpGet("mestar-profit")]
-        public async Task<ActionResult<MestarProfitModel>> MestarProfit(MestarProfitModel profitModel)
-        {
-            var mestarProfit = await _analyticsRepository.GetMestarProfit(profitModel);
-            return Ok(mestarProfit);
+            return Ok(analyticsDtos);
         }
     }
 }

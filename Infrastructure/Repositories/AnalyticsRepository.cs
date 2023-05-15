@@ -1,5 +1,5 @@
-﻿using Core.interfaces;
-using Core.Models;
+﻿using Core.Entities;
+using Core.interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,24 +7,27 @@ namespace Infrastructure.Repositories
 {
     public class AnalyticsRepository : IAnalyticsRepository
     {
-        private readonly ApplicationContext _context;
+        private readonly ApplicationContext _context;        
 
         public AnalyticsRepository(ApplicationContext applicationContext)
         {
             _context = applicationContext;
         }
 
-        public async Task<MestarProfitModel> GetMestarProfit(MestarProfitModel profitModel)
+        public async Task<List<Natjecaj>> GetMestarProfit(Guid mestarID, DateTime? from, DateTime? until)
         {
-            var mestarProfitList = _context.MestarProfit
-                                           .Where(mp => mp.MestarID == profitModel.MestarID
-                                                  && mp.TimeOfProfit >= profitModel.From
-                                                  && mp.TimeOfProfit <= profitModel.Until)
-                                           .ToList();
+            var natjecajList = _context.Natjecaji.Where(m => m.MestarID == mestarID);
 
-            profitModel.Profit = mestarProfitList.Sum(mp => mp.Profit);
+            if (from != null)
+            {
+                natjecajList = natjecajList.Where(mp => mp.Finished >= from);
+            }
+            if (until != null)
+            {
+                natjecajList = natjecajList.Where(mp => mp.Finished <= until);
+            }
 
-            return profitModel;
+            return await natjecajList.ToListAsync();
         }
     }
 }
