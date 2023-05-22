@@ -48,7 +48,8 @@ namespace Infrastructure.Repositories
                 if (otherUser == null)
                     continue;
 
-                var lastMessage = room.Messages.Last();
+                room.Messages.Sort((x, y) => DateTime.Compare(y.Time, x.Time));
+                var lastMessage = room.Messages.FirstOrDefault();
                 results.Add(new ChatMeta
                 {
                     RoomId = room.RoomName,

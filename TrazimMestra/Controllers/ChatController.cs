@@ -1,7 +1,10 @@
 ﻿using Core.Entities;
 using Core.interfaces;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
+using TrazimMestra.Attributes;
 using TrazimMestra.Dtos;
 using TrazimMestra.Hubs;
 
@@ -11,21 +14,29 @@ namespace TrazimMestra.Controllers
     {
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly IChatRepository _chatRepository;
+        private readonly ITokenService _tokenService;
 
-        public ChatController(IHubContext<ChatHub> hubContext, IChatRepository chatRepository)
+        public ChatController(IHubContext<ChatHub> hubContext, IChatRepository chatRepository, ITokenService tokenService)
         {
             _hubContext = hubContext;
             _chatRepository = chatRepository;
+            _tokenService = tokenService;
         }
 
         [HttpGet("meta")]
-        public async Task<ActionResult<IEnumerable<ChatMeta>>> GetChatsMetaData(Guid user)
+        [MyAuthorize]
+        public async Task<ActionResult<IEnumerable<ChatMeta>>> GetChatsMetaData()
         {
-            var results = await _chatRepository.GetChatsMeta(user);
+            var user = (User)HttpContext.Items["User"];
+            if (user == null)
+                return BadRequest("Something went bad");
+
+            var results = await _chatRepository.GetChatsMeta(user.Id);
             return Ok(results);
         }
 
         [HttpGet("room")]
+        [MyAuthorize]
         public async Task<ActionResult<ChatRoom>> GetChatRoom(string roomId)
         {
             return await _chatRepository.GetChatRoomByIdAsync(roomId);
