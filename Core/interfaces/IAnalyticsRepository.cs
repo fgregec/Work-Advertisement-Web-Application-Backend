@@ -4,6 +4,6 @@ namespace Core.interfaces
 {
     public interface IAnalyticsRepository
     {
-        Task<List<Natjecaj>> GetMestarProfit(Guid mestarID, DateTime? from, DateTime? until);
+        Task<List<Natjecaj>> GetMestarProfit(Guid mestarID, DateTime? dateFrom, DateTime? dateUntil);
     }
 }

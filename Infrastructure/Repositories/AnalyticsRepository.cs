@@ -14,17 +14,17 @@ namespace Infrastructure.Repositories
             _context = applicationContext;
         }
 
-        public async Task<List<Natjecaj>> GetMestarProfit(Guid mestarID, DateTime? from, DateTime? until)
+        public async Task<List<Natjecaj>> GetMestarProfit(Guid mestarID, DateTime? dateFrom, DateTime? dateUntil)
         {
             var natjecajList = _context.Natjecaji.Where(m => m.MestarID == mestarID);
 
-            if (from != null)
+            if (dateFrom != null)
             {
-                natjecajList = natjecajList.Where(mp => mp.Finished >= from);
+                natjecajList = natjecajList.Where(mp => mp.Finished >= dateFrom);
             }
-            if (until != null)
+            if (dateUntil != null)
             {
-                natjecajList = natjecajList.Where(mp => mp.Finished <= until);
+                natjecajList = natjecajList.Where(mp => mp.Finished <= dateUntil);
             }
 
             return await natjecajList.ToListAsync();

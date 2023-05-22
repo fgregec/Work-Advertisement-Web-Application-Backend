@@ -1,6 +1,6 @@
-﻿namespace TrazimMestra.Dtos
+﻿namespace Core.Models
 {
-    public class AnalyticsDto
+    public class Analytics
     {
         public decimal Price { get; set; }
         public DateTime Finished { get; set; }

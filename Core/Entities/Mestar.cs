@@ -13,8 +13,6 @@ namespace Core.Entities
         public decimal Rating { get; set; }
         [NotMapped]
         public int Reviews { get; set; }
-        [NotMapped]
-        public ICollection<MestarProfit> MestarProfit { get; set; }
         public ICollection<MestarCategory> MestarCategories { get; set; }
     }
 }
