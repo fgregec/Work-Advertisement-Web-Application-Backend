@@ -29,9 +29,9 @@ namespace TrazimMestra.Controllers
         {
             var user = (User)HttpContext.Items["User"];
             if (user == null)
-                return BadRequest("Something went bad");
+                return BadRequest("Something went bad.");
 
-            var results = await _chatRepository.GetChatsMeta(user.Id);
+            var results = await _chatRepository.GetChatsMetaData(user.Id);
             return Ok(results);
         }
 
