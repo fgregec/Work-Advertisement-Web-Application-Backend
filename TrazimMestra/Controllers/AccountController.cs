@@ -66,6 +66,7 @@ namespace TrazimMestra.Controllers
             string token = _tokenService.CreateToken(baseUser);
             var user = new UserInfo
             {
+                Id = baseUser.Id,
                 FirstName = baseUser.FirstName,
                 LastName = baseUser.LastName,
                 Token = token

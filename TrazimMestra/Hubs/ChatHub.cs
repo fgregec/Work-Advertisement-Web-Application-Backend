@@ -41,7 +41,7 @@ namespace TrazimMestra.Hubs
                     Time = DateTime.UtcNow
                 };
                 await _repo.AddMessageToRoomAsync(chatRoom, message);
-                await Clients.Group(roomId).SendAsync("ReceiveMessage", user1, content, message.Time);
+                await Clients.Group(roomId).SendAsync("ReceiveMessage", message );
             }
         }
 
