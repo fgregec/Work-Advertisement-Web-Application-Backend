@@ -1,6 +1,7 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.SeedData;
-using System.Data;
+using Infrastructure.Repositories;
 using TrazimMestra.Extensions;
 using TrazimMestra.Middleware;
 
