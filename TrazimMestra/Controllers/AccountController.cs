@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
 using Infrastructure.Data;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,7 +49,7 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromBody] LoginUserDto loginUser)
+        public async Task<ActionResult<UserInfo>> Login([FromBody] LoginUserDto loginUser)
         {
             var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Email == loginUser.Email);
 
@@ -61,7 +63,15 @@ namespace TrazimMestra.Controllers
                 return BadRequest("Incorrect data");
             }
 
-            return Ok(_tokenService.CreateToken(baseUser));
+            string token = _tokenService.CreateToken(baseUser);
+            var user = new UserInfo
+            {
+                Id = baseUser.Id,
+                FirstName = baseUser.FirstName,
+                LastName = baseUser.LastName,
+                Token = token
+            };
+            return Ok(user);
         }
 
         [HttpPost("register")]

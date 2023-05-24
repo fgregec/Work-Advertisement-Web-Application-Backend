@@ -11,7 +11,18 @@ namespace Infrastructure.Data
             Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
+        {
+            modelBuilder.Entity<ChatRoom>(entity =>
+            {
+                entity.HasKey(e => e.RoomName);
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
@@ -27,5 +38,7 @@ namespace Infrastructure.Data
         public DbSet<Review> Reviews{ get; set; }
         public DbSet<Offer> Offers { get; set; }
 
+        public DbSet<ChatRoom> ChatRooms{ get; set; }
+        public DbSet<Message> Messages{ get; set; }
     }
 }
