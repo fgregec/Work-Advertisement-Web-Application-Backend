@@ -36,6 +36,8 @@ namespace Infrastructure.Data
         public DbSet<County> Counties{ get; set; }
         public DbSet<Country> Countries{ get; set; }
         public DbSet<Review> Reviews{ get; set; }
+        public DbSet<Offer> Offers { get; set; }
+
         public DbSet<ChatRoom> ChatRooms{ get; set; }
         public DbSet<Message> Messages{ get; set; }
     }

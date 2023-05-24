@@ -1,17 +1,23 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
+using Core.Models;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
     public class NatjecajController : BaseApiController
     {
         private readonly IGenericRepository<Natjecaj> _repository;
-
-        public NatjecajController(IGenericRepository<Natjecaj> repo)
+        private readonly IMapper _mapper;
+        private readonly INatjecajRepository _natjecajRepository;
+        public NatjecajController(IGenericRepository<Natjecaj> repo, IMapper mapper, INatjecajRepository natjecajRepository)
         {
             _repository = repo;
+            _mapper = mapper;
+            _natjecajRepository = natjecajRepository;
         }
 
         [HttpPost]
@@ -60,5 +66,26 @@ namespace TrazimMestra.Controllers
             var natjecaji = await _repository.ListAllAsync();
             return Ok(natjecaji);
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<Pagination<NatjecajDto>>> FilterNatjecajs([FromQuery]NatjecajFilter filter)
+        {
+            var natjecaji = await _natjecajRepository.GetFilteredNatjecajs(filter);
+
+            IList<NatjecajDto> mappedResults = new List<NatjecajDto>();
+
+            _mapper.Map(natjecaji, mappedResults);
+
+            var paginated = new Pagination<NatjecajDto>
+            {
+                Count = natjecaji.Count(),
+                PageSize = filter.PageSize,
+                PageIndex = filter.PageIndex,
+                Data = mappedResults.Skip((filter.PageIndex - 1) * filter.PageSize).Take(filter.PageSize).ToList()
+            };
+
+            return Ok(paginated);
+        }
+
     }
 }

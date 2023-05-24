@@ -15,6 +15,7 @@
 
         public Pagination()
         {
+            Count = 0;
             PageIndex = 1;
             PageSize = 10;
         }
