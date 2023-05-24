@@ -2,6 +2,7 @@
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -45,14 +46,19 @@ namespace TrazimMestra.Controllers
             return Ok(await _repo.Users.AnyAsync(u => u.Email == email));
         }
 
-        [HttpGet("login")]
-        public async Task<ActionResult<string>> Login(string email, string password)
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody] LoginUserDto loginUser)
         {
-            var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var baseUser = await _repo.Users.FirstOrDefaultAsync(u => u.Email == loginUser.Email);
 
             if (baseUser == null)
             {
                 return BadRequest("User does not exist");
+            }
+
+            if(!SecretHasher.Verify(loginUser.Password, baseUser.Password))
+            {
+                return BadRequest("Incorrect data");
             }
 
             return Ok(_tokenService.CreateToken(baseUser));
@@ -67,6 +73,7 @@ namespace TrazimMestra.Controllers
 
             var user = new User();
             _mapper.Map(registerUser, user);
+            user.Password = SecretHasher.Hash(registerUser.Password);
 
             await _repo.Users.AddAsync(user);
             await _repo.SaveChangesAsync();

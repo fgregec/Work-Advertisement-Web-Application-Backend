@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ namespace Infrastructure.Data.SeedData
                     FirstName = "Lepi",
                     LastName = "Miške",
                     Email = "lepi@gmail.com",
-                    Password = "password",
+                    Password = SecretHasher.Hash("password"),
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
                     IsMestar = false
                 };
@@ -85,7 +86,45 @@ namespace Infrastructure.Data.SeedData
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
                 };
 
-                context.Mestri.AddRange(ivan);
+                var kerum = new Mestar()
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "Kerum",
+                    LastName = "Horvat",
+                    Email = "kmerum@gmail.com",
+                    Password = SecretHasher.Hash("password"),
+                    Description = "Najjači splićo ikad",
+                    CityID = cities.FirstOrDefault(g => g.Name == "Split").Id,
+                };
+                context.Mestri.Add(ivan);
+                context.Mestri.Add(kerum);
+
+                if (!context.MestarCategories.Any())
+                {
+                    var mestarCategory = new List<MestarCategory> {
+                    new MestarCategory{
+                        Id = Guid.NewGuid(),
+                        MestarId = ivan.Id,
+                        Mestar = ivan,
+                        Category = categories[0],
+                        CategoryId = categories[0].Id
+                    } ,
+                     new MestarCategory{
+                        Id = Guid.NewGuid(),
+                        MestarId = ivan.Id,
+                        Mestar = ivan,
+                        Category = categories[1],
+                        CategoryId = categories[1].Id
+                    },
+                     new MestarCategory{
+                        Id = Guid.NewGuid(),
+                        MestarId = kerum.Id,
+                        Mestar = kerum,
+                        Category = categories[1],
+                        CategoryId = categories[1].Id
+                    } };
+                    context.MestarCategories.AddRange(mestarCategory);
+                }
             }
             if (!context.Natjecaji.Any())
             {
