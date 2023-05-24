@@ -32,6 +32,8 @@ namespace TrazimMestra.Helpers
 
             CreateMap<Natjecaj, NatjecajDto>();
             CreateMap<User, BasicUserDto>();
+            CreateMap<OfferDto, Offer>();
+            CreateMap<NewNatjecajDto, Natjecaj>();
         }
     }
 }

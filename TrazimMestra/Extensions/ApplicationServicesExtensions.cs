@@ -33,6 +33,7 @@ namespace TrazimMestra.Extensions
             services.AddScoped<IMestarRepository, MestarRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<INatjecajRepository, NatjecajRepository>();
+            services.AddScoped<IOfferRepository, OfferRepository>();
 
             services.AddAuthentication();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

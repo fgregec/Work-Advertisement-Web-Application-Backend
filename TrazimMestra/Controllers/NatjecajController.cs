@@ -21,8 +21,16 @@ namespace TrazimMestra.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Natjecaj natjecaj)
+        public IActionResult Add([FromBody]NewNatjecajDto newNatjecaj)
         {
+            Natjecaj natjecaj = new Natjecaj();
+            //WHEN IMPLEMENTING LOGIN TAKE USER ID FROM HTTP CONTEXT
+            natjecaj.UserID = Guid.Parse("21ffe414-42a4-422e-9db4-cb903191494d");
+            natjecaj.Id = Guid.NewGuid();
+            natjecaj.Created = DateTime.UtcNow;
+
+            _mapper.Map(newNatjecaj, natjecaj);
+
             _repository.Add(natjecaj);
             return Ok();
         }
@@ -85,6 +93,15 @@ namespace TrazimMestra.Controllers
             };
 
             return Ok(paginated);
+        }
+
+        [HttpGet("natjecajbyid")]
+        public async Task<ActionResult<NatjecajDto>> GetById(string natjecajId)
+        {
+            var natjecaj = await _natjecajRepository.GetNatjecajById(Guid.Parse(natjecajId));
+            NatjecajDto natjecajDto = new NatjecajDto();
+            _mapper.Map(natjecaj, natjecajDto);
+            return Ok(natjecajDto);
         }
 
     }

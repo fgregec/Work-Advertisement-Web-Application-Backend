@@ -10,7 +10,6 @@ namespace Core.Entities
     {
         public Guid NatjecajId { get; set; }
         public Guid MestarId { get; set; }
-        public Mestar Mestar { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public OfferStatus Status { get; set; }
