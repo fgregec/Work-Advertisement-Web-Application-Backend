@@ -95,10 +95,10 @@ namespace TrazimMestra.Controllers
             return Ok(paginated);
         }
 
-        [HttpGet("natjecajbyid")]
-        public async Task<ActionResult<NatjecajDto>> GetById(string natjecajId)
+        [HttpGet("details")]
+        public async Task<ActionResult<NatjecajDto>> GetDetailedNatjecaj(Guid natjecajId)
         {
-            var natjecaj = await _natjecajRepository.GetNatjecajById(Guid.Parse(natjecajId));
+            var natjecaj = await _natjecajRepository.GetDetailedNatjecajById(natjecajId);
             NatjecajDto natjecajDto = new NatjecajDto();
             _mapper.Map(natjecaj, natjecajDto);
             return Ok(natjecajDto);

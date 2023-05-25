@@ -72,7 +72,7 @@ namespace Infrastructure.Repositories
             return allNatjecajs;
         }
 
-        public async Task<Natjecaj> GetNatjecajById(Guid id)
+        public async Task<Natjecaj> GetDetailedNatjecajById(Guid id)
         {
             return await _context.Natjecaji.Include(x=>x.City)
                                            .Include(x=>x.City.County)
