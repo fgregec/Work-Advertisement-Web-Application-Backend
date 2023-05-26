@@ -7,6 +7,7 @@ namespace Core.Interfaces
     {
         Task<IEnumerable<Natjecaj>> GetListResolvedNatjecaja(Guid id);
         Task<IEnumerable<Natjecaj>> GetFilteredNatjecajs(NatjecajFilter filter);
+        Task<Natjecaj> GetDetailedNatjecajById(Guid id);
 
     }
 }
