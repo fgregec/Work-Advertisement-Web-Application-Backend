@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230504102301_NatjecajiPull")]
+    partial class NatjecajiPull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,22 +38,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Core.Entities.ChatRoom", b =>
-                {
-                    b.Property<string>("RoomName")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("User1")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("User2")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("RoomName");
-
-                    b.ToTable("ChatRooms");
                 });
 
             modelBuilder.Entity("Core.Entities.City", b =>
@@ -111,35 +98,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Counties");
                 });
 
-            modelBuilder.Entity("Core.Entities.Message", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ChatRoomRoomName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ReceiverId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatRoomRoomName");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("Core.Entities.MestarCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -149,14 +107,14 @@ namespace Infrastructure.Data.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MestarID")
+                    b.Property<Guid>("MestarId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("MestarID");
+                    b.HasIndex("MestarId");
 
                     b.ToTable("MestarCategories");
                 });
@@ -239,7 +197,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("MestarID")
+                    b.Property<Guid>("MestarId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("Rating")
@@ -252,7 +210,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("MestarID");
+                    b.HasIndex("MestarId");
 
                     b.HasIndex("ReviewerId");
 
@@ -332,13 +290,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("County");
                 });
 
-            modelBuilder.Entity("Core.Entities.Message", b =>
-                {
-                    b.HasOne("Core.Entities.ChatRoom", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("ChatRoomRoomName");
-                });
-
             modelBuilder.Entity("Core.Entities.MestarCategory", b =>
                 {
                     b.HasOne("Core.Entities.Category", "Category")
@@ -349,7 +300,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany("MestarCategories")
-                        .HasForeignKey("MestarID")
+                        .HasForeignKey("MestarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -406,7 +357,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany()
-                        .HasForeignKey("MestarID")
+                        .HasForeignKey("MestarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -437,11 +388,6 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Entities.Category", b =>
                 {
                     b.Navigation("MestarCategories");
-                });
-
-            modelBuilder.Entity("Core.Entities.ChatRoom", b =>
-                {
-                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>

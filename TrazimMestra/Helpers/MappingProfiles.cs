@@ -30,6 +30,10 @@ namespace TrazimMestra.Helpers
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City));
 
+            CreateMap<Natjecaj, NatjecajDto>();
+            CreateMap<User, BasicUserDto>();
+            CreateMap<OfferDto, Offer>();
+            CreateMap<NewNatjecajDto, Natjecaj>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ namespace Infrastructure.Data.SeedData
                     FirstName = "Lepi",
                     LastName = "Miške",
                     Email = "lepi@gmail.com",
-                    Password = "password",
+                    Password = SecretHasher.Hash("password"),
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
                     IsMestar = false
                 };
@@ -91,7 +92,7 @@ namespace Infrastructure.Data.SeedData
                     FirstName = "Kerum",
                     LastName = "Horvat",
                     Email = "kmerum@gmail.com",
-                    Password = "password",
+                    Password = SecretHasher.Hash("password"),
                     Description = "Najjači splićo ikad",
                     CityID = cities.FirstOrDefault(g => g.Name == "Split").Id,
                 };
@@ -133,30 +134,35 @@ namespace Infrastructure.Data.SeedData
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zagreb").Id,
-                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Mehaničar").Id,
-                    Price = 1200,
                     IsEmergency = false,
                     Description = "Samo problemi tebra",
                     Created = DateTime.UtcNow,
-                    Finished = null
                 };
                 Natjecaj natjecaj2 = new Natjecaj()
                 {
                     Id = Guid.NewGuid(),
                     UserID = user.Id,
                     CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
-                    MestarID = ivan.Id,
                     CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
-                    Price = 120,
                     IsEmergency = true,
                     Description = "Samo problemi brate",
                     Created = DateTime.UtcNow,
-                    Finished = null
+                };
+                Natjecaj natjecaj3 = new Natjecaj()
+                {
+                    Id = Guid.NewGuid(),
+                    UserID = user.Id,
+                    CityID = cities.FirstOrDefault(g => g.Name == "Zadar").Id,
+                    CategoryID = categories.FirstOrDefault(c => c.Name == "Električar").Id,
+                    IsEmergency = true,
+                    Description = "Samo problemi brate",
+                    Created = DateTime.UtcNow,
                 };
 
                 natjecaji.Add(natjecaj);
                 natjecaji.Add(natjecaj2);
+                natjecaji.Add(natjecaj3);
 
                 context.Natjecaji.AddRange(natjecaji);
             }

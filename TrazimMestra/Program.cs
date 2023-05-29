@@ -1,7 +1,9 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.SeedData;
-using System.Data;
+using Infrastructure.Repositories;
 using TrazimMestra.Extensions;
+using TrazimMestra.Hubs;
 using TrazimMestra.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,7 @@ var app = builder.Build();
 
 app.UseRequestToken();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,10 +36,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("corspolicy");
 
+app.UseRouting();
 app.UseAuthorization();
-
-app.MapControllers();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/chathub");
+});
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<ApplicationContext>();

@@ -26,358 +26,358 @@ namespace Infrastructure.Data.Migrations
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Core.Entities.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Categories");
-                });
+                b.ToTable("Categories");
+            });
 
             modelBuilder.Entity("Core.Entities.City", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CountryID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CountryID")
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CountyID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CountyID")
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<int>("ZipCode")
-                        .HasColumnType("integer");
+                b.Property<int>("ZipCode")
+                    .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CountryID");
+                b.HasIndex("CountryID");
 
-                    b.HasIndex("CountyID");
+                b.HasIndex("CountyID");
 
-                    b.ToTable("Cities");
-                });
+                b.ToTable("Cities");
+            });
 
             modelBuilder.Entity("Core.Entities.Country", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Countries");
-                });
+                b.ToTable("Countries");
+            });
 
             modelBuilder.Entity("Core.Entities.County", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Counties");
-                });
+                b.ToTable("Counties");
+            });
 
             modelBuilder.Entity("Core.Entities.MestarCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CategoryId")
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("MestarID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("MestarId")
+                    .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("CategoryId");
 
-                    b.HasIndex("MestarID");
+                b.HasIndex("MestarId");
 
-                    b.ToTable("MestarCategories");
-                });
+                b.ToTable("MestarCategories");
+            });
 
             modelBuilder.Entity("Core.Entities.Natjecaj", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CategoryID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CategoryID")
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CityID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CityID")
+                    .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<DateTime>("Created")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<DateTime?>("Finished")
-                        .HasColumnType("timestamp with time zone");
+                b.Property<DateTime?>("Finished")
+                    .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsEmergency")
-                        .HasColumnType("boolean");
+                b.Property<bool>("IsEmergency")
+                    .HasColumnType("boolean");
 
-                    b.Property<Guid>("MestarID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("MestarID")
+                    .HasColumnType("uuid");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                b.Property<decimal>("Price")
+                    .HasColumnType("numeric");
 
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("UserID")
+                    .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CategoryID");
+                b.HasIndex("CategoryID");
 
-                    b.HasIndex("CityID");
+                b.HasIndex("CityID");
 
-                    b.HasIndex("MestarID");
+                b.HasIndex("MestarID");
 
-                    b.HasIndex("UserID");
+                b.HasIndex("UserID");
 
-                    b.ToTable("Natjecaji");
-                });
+                b.ToTable("Natjecaji");
+            });
 
             modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CityId")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CityId")
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<Guid>("MestarID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("MestarId")
+                    .HasColumnType("uuid");
 
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("numeric");
+                b.Property<decimal>("Rating")
+                    .HasColumnType("numeric");
 
-                    b.Property<Guid>("ReviewerId")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("ReviewerId")
+                    .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                b.HasIndex("CityId");
 
-                    b.HasIndex("MestarID");
+                b.HasIndex("MestarId");
 
-                    b.HasIndex("ReviewerId");
+                b.HasIndex("ReviewerId");
 
-                    b.ToTable("Reviews");
-                });
+                b.ToTable("Reviews");
+            });
 
             modelBuilder.Entity("Core.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid");
 
-                    b.Property<Guid>("CityID")
-                        .HasColumnType("uuid");
+                b.Property<Guid>("CityID")
+                    .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
+                b.Property<string>("Description")
+                    .HasMaxLength(400)
+                    .HasColumnType("character varying(400)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Discriminator")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("FirstName")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<bool>("IsMestar")
-                        .HasColumnType("boolean");
+                b.Property<bool>("IsMestar")
+                    .HasColumnType("boolean");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("LastName")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
+                b.Property<string>("Password")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CityID");
+                b.HasIndex("CityID");
 
-                    b.ToTable("Users");
+                b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
-                    b.UseTphMappingStrategy();
-                });
+                b.UseTphMappingStrategy();
+            });
 
             modelBuilder.Entity("Core.Entities.Mestar", b =>
-                {
-                    b.HasBaseType("Core.Entities.User");
+            {
+                b.HasBaseType("Core.Entities.User");
 
-                    b.HasDiscriminator().HasValue("Mestar");
-                });
+                b.HasDiscriminator().HasValue("Mestar");
+            });
 
             modelBuilder.Entity("Core.Entities.City", b =>
-                {
-                    b.HasOne("Core.Entities.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Core.Entities.Country", "Country")
+                    .WithMany()
+                    .HasForeignKey("CountryID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.County", "County")
-                        .WithMany()
-                        .HasForeignKey("CountyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.County", "County")
+                    .WithMany()
+                    .HasForeignKey("CountyID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Country");
+                b.Navigation("Country");
 
-                    b.Navigation("County");
-                });
+                b.Navigation("County");
+            });
 
             modelBuilder.Entity("Core.Entities.MestarCategory", b =>
-                {
-                    b.HasOne("Core.Entities.Category", "Category")
-                        .WithMany("MestarCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Core.Entities.Category", "Category")
+                    .WithMany("MestarCategories")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.Mestar", "Mestar")
-                        .WithMany("MestarCategories")
-                        .HasForeignKey("MestarID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.Mestar", "Mestar")
+                    .WithMany("MestarCategories")
+                    .HasForeignKey("MestarId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Category");
+                b.Navigation("Category");
 
-                    b.Navigation("Mestar");
-                });
+                b.Navigation("Mestar");
+            });
 
             modelBuilder.Entity("Core.Entities.Natjecaj", b =>
-                {
-                    b.HasOne("Core.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Core.Entities.Category", "Category")
+                    .WithMany()
+                    .HasForeignKey("CategoryID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.City", "City")
+                    .WithMany()
+                    .HasForeignKey("CityID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.Mestar", "Mestar")
-                        .WithMany()
-                        .HasForeignKey("MestarID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.Mestar", "Mestar")
+                    .WithMany()
+                    .HasForeignKey("MestarID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.User", "User")
+                    .WithMany()
+                    .HasForeignKey("UserID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Category");
+                b.Navigation("Category");
 
-                    b.Navigation("City");
+                b.Navigation("City");
 
-                    b.Navigation("Mestar");
+                b.Navigation("Mestar");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
             modelBuilder.Entity("Core.Entities.Review", b =>
-                {
-                    b.HasOne("Core.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Core.Entities.City", "City")
+                    .WithMany()
+                    .HasForeignKey("CityId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.Mestar", "Mestar")
-                        .WithMany()
-                        .HasForeignKey("MestarID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.Mestar", "Mestar")
+                    .WithMany()
+                    .HasForeignKey("MestarId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Core.Entities.User", "Reviewer")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ReviewerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Core.Entities.User", "Reviewer")
+                    .WithMany("Reviews")
+                    .HasForeignKey("ReviewerId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("City");
+                b.Navigation("City");
 
-                    b.Navigation("Mestar");
+                b.Navigation("Mestar");
 
-                    b.Navigation("Reviewer");
-                });
+                b.Navigation("Reviewer");
+            });
 
             modelBuilder.Entity("Core.Entities.User", b =>
-                {
-                    b.HasOne("Core.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Core.Entities.City", "City")
+                    .WithMany()
+                    .HasForeignKey("CityID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("City");
-                });
+                b.Navigation("City");
+            });
 
             modelBuilder.Entity("Core.Entities.Category", b =>
-                {
-                    b.Navigation("MestarCategories");
-                });
+            {
+                b.Navigation("MestarCategories");
+            });
 
             modelBuilder.Entity("Core.Entities.User", b =>
-                {
-                    b.Navigation("Reviews");
-                });
+            {
+                b.Navigation("Reviews");
+            });
 
             modelBuilder.Entity("Core.Entities.Mestar", b =>
-                {
-                    b.Navigation("MestarCategories");
-                });
+            {
+                b.Navigation("MestarCategories");
+            });
 #pragma warning restore 612, 618
         }
     }

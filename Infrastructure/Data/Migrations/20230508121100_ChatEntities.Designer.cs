@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230508121100_ChatEntities")]
+    partial class ChatEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,14 +152,14 @@ namespace Infrastructure.Data.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MestarID")
+                    b.Property<Guid>("MestarId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("MestarID");
+                    b.HasIndex("MestarId");
 
                     b.ToTable("MestarCategories");
                 });
@@ -180,8 +183,17 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("Finished")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsEmergency")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("MestarID")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uuid");
@@ -192,38 +204,11 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("CityID");
 
+                    b.HasIndex("MestarID");
+
                     b.HasIndex("UserID");
 
                     b.ToTable("Natjecaji");
-                });
-
-            modelBuilder.Entity("Core.Entities.Offer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("MestarId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("NatjecajId")
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MestarId");
-
-                    b.ToTable("Offers");
                 });
 
             modelBuilder.Entity("Core.Entities.Review", b =>
@@ -239,7 +224,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("MestarID")
+                    b.Property<Guid>("MestarId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("Rating")
@@ -252,7 +237,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("MestarID");
+                    b.HasIndex("MestarId");
 
                     b.HasIndex("ReviewerId");
 
@@ -349,7 +334,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany("MestarCategories")
-                        .HasForeignKey("MestarID")
+                        .HasForeignKey("MestarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -372,6 +357,12 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.Mestar", "Mestar")
+                        .WithMany()
+                        .HasForeignKey("MestarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
@@ -382,18 +373,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Navigation("City");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Core.Entities.Offer", b =>
-                {
-                    b.HasOne("Core.Entities.Mestar", "Mestar")
-                        .WithMany()
-                        .HasForeignKey("MestarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Mestar");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Entities.Review", b =>
@@ -406,7 +388,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany()
-                        .HasForeignKey("MestarID")
+                        .HasForeignKey("MestarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
