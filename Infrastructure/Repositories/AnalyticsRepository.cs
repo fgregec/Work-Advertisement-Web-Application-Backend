@@ -16,8 +16,8 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Natjecaj>> GetMestarProfit(Guid mestarID, DateTime? dateFrom, DateTime? dateUntil)
         {
-            var offers = _context.Offers.Where(m => m.MestarId == mestarID &&
-                                                    m.Status == OfferStatus.ACCEPTED);
+            var offers = _context.Offers.Where(m => m.MestarId == mestarID 
+                                                &&  m.Status == OfferStatus.ACCEPTED);
 
             var natjecajList = _context.Natjecaji.Where(n => offers.Any(o => o.NatjecajId == n.Id));                                                            
             
