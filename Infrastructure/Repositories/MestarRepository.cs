@@ -3,8 +3,6 @@ using Core.interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Core.Models;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Infrastructure.Repositories
 {
@@ -67,6 +65,6 @@ namespace Infrastructure.Repositories
                 mestar.Rating = rating;
                 mestar.Reviews = reviews.Count();
             });
-        }
+        }        
     }
 }

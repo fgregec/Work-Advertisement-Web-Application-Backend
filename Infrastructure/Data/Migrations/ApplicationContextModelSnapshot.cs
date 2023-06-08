@@ -149,14 +149,14 @@ namespace Infrastructure.Data.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MestarId")
+                    b.Property<Guid>("MestarID")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("MestarId");
+                    b.HasIndex("MestarID");
 
                     b.ToTable("MestarCategories");
                 });
@@ -239,7 +239,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("MestarId")
+                    b.Property<Guid>("MestarID")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("Rating")
@@ -252,7 +252,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("MestarId");
+                    b.HasIndex("MestarID");
 
                     b.HasIndex("ReviewerId");
 
@@ -349,7 +349,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany("MestarCategories")
-                        .HasForeignKey("MestarId")
+                        .HasForeignKey("MestarID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -406,7 +406,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Entities.Mestar", "Mestar")
                         .WithMany()
-                        .HasForeignKey("MestarId")
+                        .HasForeignKey("MestarID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

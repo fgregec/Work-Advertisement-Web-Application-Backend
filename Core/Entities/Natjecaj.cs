@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Entities
+﻿namespace Core.Entities
 {
     public class Natjecaj : BaseEntity
     {
@@ -17,5 +11,6 @@ namespace Core.Entities
         public bool IsEmergency { get; set; }
         public string Description { get; set; }
         public DateTime Created { get; set; }
+        public DateTime Finished { get; set; }
     }
 }

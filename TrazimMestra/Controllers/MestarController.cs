@@ -36,17 +36,17 @@ namespace TrazimMestra.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var mestar = await _repository.GetByIdAsync(id);
-            
+
             if (mestar == null)
                 return NotFound();
-            
+
             _repository.Delete(mestar);
             return Ok();
         }
 
         [HttpPut]
         public IActionResult Update(Mestar mestar)
-        {            
+        {
             _repository.Update(mestar);
             return Ok();
         }
@@ -76,8 +76,8 @@ namespace TrazimMestra.Controllers
             var mestarNatjecaji = await _natjecajRepository.GetListResolvedNatjecaja(mestarID);
 
             if (mestarNatjecaji == null)
-            { 
-                return NotFound(); 
+            {
+                return NotFound();
             }
 
             return Ok(mestarNatjecaji);
@@ -105,6 +105,6 @@ namespace TrazimMestra.Controllers
         public async Task<IEnumerable<Category>> Categories()
         {
             return await _categoryRepository.ListAllAsync();
-        }
+        }        
     }
 }
