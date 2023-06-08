@@ -1,7 +1,11 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
+using Core.interfaces;
 using Core.Interfaces;
+using Core.Models;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using TrazimMestra.Dtos;
 
 namespace TrazimMestra.Controllers
 {
@@ -9,11 +13,15 @@ namespace TrazimMestra.Controllers
     {
         private readonly IGenericRepository<User> _repository;
         private readonly INatjecajRepository _natjecajRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserController(IGenericRepository<User> repository, INatjecajRepository natjecajRepository)
+        public UserController(IGenericRepository<User> repository, INatjecajRepository natjecajRepository, IUserRepository userRepository, IMapper mapper)
         {
             _repository = repository;
             _natjecajRepository = natjecajRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -68,6 +76,17 @@ namespace TrazimMestra.Controllers
         {
             var userNatjecaji = await _natjecajRepository.GetListResolvedNatjecaja(userID);
             return Ok(userNatjecaji);
+        }
+
+        [HttpGet("search")]
+        public async Task<IReadOnlyList<BasicUserDto>> Search(string input)
+        {
+            var users = await _userRepository.Search(input);
+
+            var result = new List<BasicUserDto>();
+            _mapper.Map<IReadOnlyList<User>, IReadOnlyList<BasicUserDto>>(users, result);
+
+            return result;
         }
     }
 }

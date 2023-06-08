@@ -53,8 +53,8 @@ namespace Infrastructure.Repositories
                     RoomId = room.RoomName,
                     FirstName = otherUser.FirstName,
                     LastName = otherUser.LastName,
-                    LastMessageTime = lastMessage.Time,
-                    LastMessage = lastMessage.Content
+                    LastMessageTime = lastMessage == null ? DateTime.Now : lastMessage.Time,
+                    LastMessage = lastMessage == null ? "-" : lastMessage.Content
                 });
             }
             return results;
